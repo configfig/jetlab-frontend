@@ -1,0 +1,219 @@
+# Netlify configuration for JetLab Digital Agency
+# This file handles routing, redirects, and build settings
+
+[build]
+  # Build command
+  command = "npm run build"
+  
+  # Output directory
+  publish = "build"
+  
+  # Environment variables for build
+  [build.environment]
+    NODE_VERSION = "18"
+    NPM_VERSION = "9"
+    GENERATE_SOURCEMAP = "false"
+
+# SPA routing - redirect all routes to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Force HTTPS redirects
+[[redirects]]
+  from = "http://jetlabco.com/*"
+  to = "https://jetlabco.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.jetlabco.com/*"
+  to = "https://jetlabco.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.jetlabco.com/*"
+  to = "https://jetlabco.com/:splat"
+  status = 301
+  force = true
+
+# Legacy URL redirects
+[[redirects]]
+  from = "/web-development"
+  to = "/services/web-development"
+  status = 301
+
+[[redirects]]
+  from = "/digital-marketing"
+  to = "/services/digital-marketing"
+  status = 301
+
+[[redirects]]
+  from = "/ai-integration"
+  to = "/services/ai-integration"
+  status = 301
+
+[[redirects]]
+  from = "/seo-optimization"
+  to = "/services/seo-optimization"
+  status = 301
+
+# Anchor link redirects
+[[redirects]]
+  from = "/services"
+  to = "/#services"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/#about"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/#contact"
+  status = 301
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    
+    # Performance headers
+    X-DNS-Prefetch-Control = "on"
+    
+    # Content Security Policy
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://fonts.googleapis.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+      font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
+      img-src 'self' data: https: blob:;
+      connect-src 'self' https://www.google-analytics.com https://fonts.googleapis.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    """
+
+# Cache headers for static assets
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Special headers for service worker
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers for HTML files
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers for manifest and robots
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Form handling (if using Netlify Forms)
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+  
+  [plugins.inputs]
+    buildDir = "build"
+
+# Environment-specific settings
+[context.production]
+  command = "npm run build"
+  
+  [context.production.environment]
+    NODE_ENV = "production"
+    REACT_APP_ENV = "production"
+
+[context.deploy-preview]
+  command = "npm run build"
+  
+  [context.deploy-preview.environment]
+    NODE_ENV = "production"
+    REACT_APP_ENV = "staging"
+
+[context.branch-deploy]
+  command = "npm run build"
+  
+  [context.branch-deploy.environment]
+    NODE_ENV = "production"
+    REACT_APP_ENV = "development"

@@ -15,7 +15,7 @@ const DigitalMarketingPage = React.lazy(() => import('./components/DigitalMarket
 const AIIntegrationPage = React.lazy(() => import('./components/AIIntegrationPage'));
 const SEOOptimizationPage = React.lazy(() => import('./components/SEOOptimizationPage'));
 
-// Loading spinner component
+// Enhanced loading spinner component
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen bg-dark">
     <div className="relative">
@@ -42,8 +42,9 @@ const HomePage = () => {
     console.error('Error loading home page:', error);
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl text-light mb-4">Something went wrong</h1>
+        <div className="text-center p-8">
+          <h1 className="text-2xl text-light mb-4 chakra-semibold">Something went wrong</h1>
+          <p className="text-muted mb-6">We're sorry, but something went wrong loading the page.</p>
           <button 
             onClick={() => window.location.reload()} 
             className="btn-primary"
@@ -55,6 +56,54 @@ const HomePage = () => {
     );
   }
 };
+
+// Enhanced Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-dark flex items-center justify-center">
+          <div className="text-center p-8 max-w-md mx-auto">
+            <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i className="bi bi-exclamation-triangle text-red-400 text-3xl"></i>
+            </div>
+            <h1 className="text-2xl text-light mb-4 chakra-semibold">Oops! Something went wrong</h1>
+            <p className="text-muted mb-6">We're sorry, but something unexpected happened. Please try refreshing the page.</p>
+            <div className="space-y-3">
+              <button 
+                onClick={() => window.location.reload()} 
+                className="btn-primary w-full"
+              >
+                Refresh Page
+              </button>
+              <button 
+                onClick={() => window.location.href = '/'} 
+                className="btn-secondary w-full"
+              >
+                Go to Homepage
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 function App() {
   useEffect(() => {
@@ -73,17 +122,6 @@ function App() {
 
     // Add app-loaded class for animations
     document.body.classList.add('app-loaded');
-
-    // Preload critical fonts
-    const preloadFont = (href) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.href = href;
-      link.as = 'font';
-      link.type = 'font/woff2';
-      link.crossOrigin = 'anonymous';
-      document.head.appendChild(link);
-    };
 
     // Performance optimizations
     if ('requestIdleCallback' in window) {
@@ -119,63 +157,86 @@ function App() {
       }
     }
 
-    // Error boundary for unhandled errors
-    window.addEventListener('error', (event) => {
+    // Global error handling for unhandled errors
+    const handleError = (event) => {
       console.error('Unhandled error:', event.error);
       // Send to error tracking service if available
-    });
+      if (window.gtag) {
+        window.gtag('event', 'exception', {
+          description: event.error?.message || 'Unknown error',
+          fatal: false
+        });
+      }
+    };
 
-    window.addEventListener('unhandledrejection', (event) => {
+    const handleRejection = (event) => {
       console.error('Unhandled promise rejection:', event.reason);
       // Send to error tracking service if available
-    });
+      if (window.gtag) {
+        window.gtag('event', 'exception', {
+          description: event.reason?.message || 'Promise rejection',
+          fatal: false
+        });
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleRejection);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleRejection);
+    };
 
   }, []);
 
   return (
-    <Router>
-      <div className="App">
-        {/* SEO Meta Tags and Schema */}
-        <SEO />
-        
-        {/* Header - Fixed Navigation */}
-        <Header />
-        
-        {/* Main Content with Routes */}
-        <main role="main">
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              {/* Home Page */}
-              <Route path="/" element={<HomePage />} />
-              
-              {/* Service Pages */}
-              <Route 
-                path="/services/web-development" 
-                element={<WebDevelopmentPage />} 
-              />
-              <Route 
-                path="/services/digital-marketing" 
-                element={<DigitalMarketingPage />} 
-              />
-              <Route 
-                path="/services/ai-integration" 
-                element={<AIIntegrationPage />} 
-              />
-              <Route 
-                path="/services/seo-optimization" 
-                element={<SEOOptimizationPage />} 
-              />
-              
-              {/* Fallback to home for any unmatched routes */}
-              <Route path="*" element={<HomePage />} />
-            </Routes>
-          </Suspense>
-        </main>
-        
-        {/* Footer - Site Footer with Policy Modals */}
-        <Footer />
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="App">
+          {/* SEO Meta Tags and Schema */}
+          <SEO />
+          
+          {/* Header - Fixed Navigation */}
+          <Header />
+          
+          {/* Main Content with Routes */}
+          <main role="main">
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                {/* Home Page */}
+                <Route path="/" element={<HomePage />} />
+                
+                {/* Service Pages */}
+                <Route 
+                  path="/services/web-development" 
+                  element={<WebDevelopmentPage />} 
+                />
+                <Route 
+                  path="/services/digital-marketing" 
+                  element={<DigitalMarketingPage />} 
+                />
+                <Route 
+                  path="/services/ai-integration" 
+                  element={<AIIntegrationPage />} 
+                />
+                <Route 
+                  path="/services/seo-optimization" 
+                  element={<SEOOptimizationPage />} 
+                />
+                
+                {/* Fallback to home for any unmatched routes */}
+                <Route path="*" element={<HomePage />} />
+              </Routes>
+            </Suspense>
+          </main>
+          
+          {/* Footer - Site Footer with Policy Modals */}
+          <Footer />
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

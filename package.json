@@ -1,46 +1,65 @@
 {
-  "name": "jetlabco-app",
-  "version": "0.1.0",
+  "name": "jetlab-digital-agency",
+  "version": "1.0.0",
+  "description": "JetLab Digital Agency - Premium Web Development, AI Integration & Digital Marketing Services",
+  "homepage": "https://jetlabco.com",
   "private": true,
+  "keywords": [
+    "digital agency",
+    "web development",
+    "AI integration",
+    "digital marketing",
+    "SEO optimization",
+    "React",
+    "Chicago"
+  ],
+  "author": {
+    "name": "JetLab Digital Agency",
+    "email": "info@jetlabco.com",
+    "url": "https://jetlabco.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jetlab-agency/website.git"
+  },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.16",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "autoprefixer": "^10.4.21",
-    "bootstrap-icons": "^1.13.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "emailjs-com": "^3.2.0",
-    "express": "^5.1.0",
-    "express-rate-limit": "^7.5.1",
-    "framer-motion": "^12.18.1",
-    "helmet": "^8.1.0",
-    "joi": "^17.13.3",
-    "lucide-react": "^0.522.0",
-    "nodemailer": "^7.0.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-imask": "^7.6.1",
-    "react-intersection-observer": "^9.16.0",
-    "react-particles": "^2.12.2",
-    "react-router-dom": "^7.6.2",
-    "react-scripts": "^5.0.1",
-    "react-typed": "^2.0.12",
-    "web-vitals": "^2.1.4"
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.2",
+    "bootstrap-icons": "^1.11.2",
+    "framer-motion": "^10.16.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-imask": "^7.1.3",
+    "react-intersection-observer": "^9.5.3",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^3.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "npx source-map-explorer 'build/static/js/*.js'",
+    "lint": "eslint src --ext .js,.jsx",
+    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,scss,md}\"",
+    "pre-commit": "npm run lint:fix && npm run format",
+    "build:analyze": "npm run build && npm run analyze"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "prefer-const": "error",
+      "no-var": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -54,12 +73,19 @@
       "last 1 safari version"
     ]
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "postcss.config.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.10"
-  }
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "source-map-explorer": "^2.5.3",
+    "tailwindcss": "^3.3.6"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "proxy": "http://localhost:3001"
 }

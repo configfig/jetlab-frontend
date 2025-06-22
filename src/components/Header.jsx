@@ -130,13 +130,13 @@ const Header = () => {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`header-fixed ${
           isScrolled 
-            ? 'bg-dark/95 backdrop-blur-lg border-b border-border' 
-            : 'bg-transparent'
+            ? 'header-scrolled' 
+            : 'header-transparent'
         }`}
       >
-        <div className="container-custom">
+        <div className="container-mobile">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <motion.div
@@ -165,7 +165,7 @@ const Header = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                         onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
-                        className="flex items-center space-x-2 text-light hover:text-light/80 transition-colors duration-300 chakra-medium outline-none focus:outline-none"
+                        className="nav-button"
                       >
                         <i className={`${item.icon} text-lg`}></i>
                         <span>{item.label}</span>
@@ -184,7 +184,7 @@ const Header = () => {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full right-0 mt-2 w-80 bg-dark-700 border border-border rounded-xl shadow-2xl overflow-hidden z-[60]"
+                            className="dropdown-menu"
                           >
                             <div className="p-4">
                               <div className="space-y-2">
@@ -195,10 +195,10 @@ const Header = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     onClick={() => navigateToPage(service.path)}
-                                    className="w-full p-4 rounded-xl hover:bg-light/10 transition-all duration-300 text-left group outline-none focus:outline-none"
+                                    className="dropdown-item"
                                   >
                                     <div className="flex items-center space-x-4">
-                                      <div className="w-12 h-12 bg-dark-600 rounded-lg flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-all duration-300">
+                                      <div className="dropdown-item-icon">
                                         <i className={`${service.icon} text-lg`}></i>
                                       </div>
                                       <div className="flex-1">
@@ -218,7 +218,7 @@ const Header = () => {
                               <div className="mt-4 pt-4 border-t border-border/50">
                                 <button
                                   onClick={() => scrollToSection('services')}
-                                  className="w-full p-3 text-center bg-light/10 hover:bg-light/20 rounded-lg transition-all duration-300 outline-none focus:outline-none"
+                                  className="dropdown-all-services-btn"
                                 >
                                   <span className="chakra-medium text-light">View All Services</span>
                                 </button>
@@ -235,7 +235,7 @@ const Header = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                       onClick={item.action}
-                      className="flex items-center space-x-2 text-light hover:text-light/80 transition-colors duration-300 chakra-medium outline-none focus:outline-none"
+                      className="nav-button"
                     >
                       <i className={`${item.icon} text-lg`}></i>
                       <span>{item.label}</span>
@@ -251,14 +251,14 @@ const Header = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
               onClick={() => scrollToSection('contact')}
-              className="hidden md:block btn-primary outline-none focus:outline-none"
+              className="hidden md:block btn-primary"
             >
               Get Started
             </motion.button>
 
             {/* Mobile Sidebar Button */}
             <button
-              className="md:hidden text-2xl text-light hover:text-light/80 transition-colors duration-300 z-50 relative"
+              className="mobile-menu-btn"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
@@ -282,7 +282,7 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
+              className="mobile-sidebar-backdrop"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -292,10 +292,10 @@ const Header = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="fixed top-0 right-0 bottom-0 w-[90vw] max-w-sm bg-gradient-to-b from-dark-700 to-dark-800 backdrop-blur-lg border-l border-border shadow-2xl z-50 md:hidden flex flex-col"
+              className="mobile-sidebar"
             >
               {/* Fixed Header */}
-              <div className="flex items-center justify-between p-6 border-b border-border bg-gradient-to-r from-dark-700 to-dark-600 flex-shrink-0">
+              <div className="mobile-sidebar-header">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
                     <i className="bi bi-lightning-charge text-dark text-lg"></i>
@@ -307,7 +307,7 @@ const Header = () => {
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-10 h-10 rounded-lg bg-dark-600 hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center text-light"
+                  className="mobile-sidebar-close-btn"
                   aria-label="Close sidebar"
                 >
                   <i className="bi bi-x text-xl"></i>
@@ -315,7 +315,7 @@ const Header = () => {
               </div>
 
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="mobile-sidebar-content">
                 {/* Navigation Items */}
                 <div className="space-y-3">
                   {navItems.map((item) => (
@@ -323,7 +323,7 @@ const Header = () => {
                       {item.hasDropdown ? (
                         <div className="space-y-3">
                           {/* Services Header */}
-                          <div className="flex items-center space-x-3 p-4 rounded-xl bg-gradient-to-r from-dark-600 to-dark-500 border border-border/30">
+                          <div className="mobile-nav-service-header">
                             <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
                               <i className={`${item.icon} text-dark text-lg`}></i>
                             </div>
@@ -342,10 +342,10 @@ const Header = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.1 }}
                                 onClick={() => navigateToPage(service.path)}
-                                className="w-full group"
+                                className="mobile-nav-service-item"
                               >
-                                <div className="flex items-center space-x-4 p-4 rounded-xl bg-dark-600/50 hover:bg-dark-500 transition-all duration-300 border border-transparent hover:border-border">
-                                  <div className="w-10 h-10 bg-dark-500 rounded-lg flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-all duration-300">
+                                <div className="mobile-nav-service-item-content">
+                                  <div className="mobile-nav-service-item-icon">
                                     <i className={`${service.icon} text-lg text-light group-hover:text-dark`}></i>
                                   </div>
                                   <div className="flex-1 text-left">
@@ -360,7 +360,7 @@ const Header = () => {
                             {/* View All Services */}
                             <button
                               onClick={() => scrollToSection('services')}
-                              className="w-full p-4 mt-3 text-center bg-gradient-to-r from-light/10 to-light/20 hover:from-light/20 hover:to-light/30 rounded-xl transition-all duration-300 border border-light/20 hover:border-light/40"
+                              className="mobile-nav-all-services-btn"
                             >
                               <span className="chakra-semibold text-light">View All Services</span>
                             </button>
@@ -369,10 +369,10 @@ const Header = () => {
                       ) : (
                         <button
                           onClick={item.action}
-                          className="w-full group"
+                          className="mobile-nav-item"
                         >
-                          <div className="flex items-center space-x-4 p-4 rounded-xl bg-dark-600/30 hover:bg-dark-500 transition-all duration-300 border border-transparent hover:border-border">
-                            <div className="w-10 h-10 bg-dark-500 rounded-lg flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-all duration-300">
+                          <div className="mobile-nav-item-content">
+                            <div className="mobile-nav-item-icon">
                               <i className={`${item.icon} text-lg text-light group-hover:text-dark`}></i>
                             </div>
                             <span className="chakra-semibold text-light group-hover:text-light flex-1 text-left">{item.label}</span>
@@ -395,7 +395,7 @@ const Header = () => {
                 </div>
 
                 {/* Contact Info */}
-                <div className="mt-8 p-6 bg-gradient-to-br from-dark-600 to-dark-700 rounded-2xl border border-border/30">
+                <div className="mobile-sidebar-contact">
                   <h4 className="chakra-semibold text-light mb-4 text-center">Contact Info</h4>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
@@ -425,7 +425,7 @@ const Header = () => {
                 </div>
 
                 {/* Social Links */}
-                <div className="mt-6 text-center">
+                <div className="mobile-sidebar-social">
                   <h5 className="chakra-medium text-light mb-4">Follow Us</h5>
                   <div className="flex justify-center space-x-4">
                     {[
@@ -447,6 +447,9 @@ const Header = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Safe area for iOS */}
+                <div className="h-8"></div>
               </div>
             </motion.div>
           </>

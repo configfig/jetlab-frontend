@@ -1,0 +1,21 @@
+# Redirects for JetLab Digital Agency
+# This file should be placed in the public folder
+
+# SPA fallback - redirect all routes to index.html
+/*    /index.html   200
+
+# Specific service redirects (in case of old URLs)
+/web-development              /services/web-development    301
+/digital-marketing            /services/digital-marketing  301
+/ai-integration              /services/ai-integration     301
+/seo-optimization            /services/seo-optimization   301
+
+# Legacy redirects
+/services                    /#services                    301
+/about                       /#about                       301
+/contact                     /#contact                     301
+
+# Force HTTPS
+http://jetlabco.com/*        https://jetlabco.com/:splat   301!
+http://www.jetlabco.com/*    https://jetlabco.com/:splat   301!
+https://www.jetlabco.com/*   https://jetlabco.com/:splat   301!
