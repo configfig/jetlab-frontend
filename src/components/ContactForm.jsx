@@ -131,8 +131,8 @@ const ContactForm = () => {
           message: ''
         });
         
-        // Auto-hide success message after 8 seconds
-        setTimeout(() => setSubmitStatus(null), 8000);
+        // Auto-hide success message after 10 seconds
+        setTimeout(() => setSubmitStatus(null), 10000);
       } else {
         throw new Error(result.error || 'Failed to send message');
       }
@@ -320,7 +320,7 @@ const ContactForm = () => {
                               submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
                             }`}>
                               {submitStatus === 'success' 
-                                ? `Thank you ${formData.name || 'for your message'}! We've received your inquiry and will get back to you within 24 hours at ${formData.email || 'your email address'}. Our team is excited to discuss your project!` 
+                                ? `Thank you${formData.name ? ` ${formData.name}` : ''}! We've received your inquiry and will get back to you within 24 hours at ${formData.email || 'your email address'}. Our team is excited to discuss your project!` 
                                 : 'There was an issue sending your message. Please check your information and try again, or contact us directly at info@jetlabco.com'
                               }
                             </p>
@@ -468,6 +468,60 @@ const ContactForm = () => {
             </div>
           </div>
         </div>
+
+        {/* Toast Notification - Fixed Position */}
+        <AnimatePresence>
+          {submitStatus && (
+            <motion.div
+              initial={{ opacity: 0, x: 300, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 300, scale: 0.8 }}
+              transition={{ duration: 0.4, type: "spring", damping: 25 }}
+              className="toast-notification"
+            >
+              <div className={`toast-content ${
+                submitStatus === 'success' 
+                  ? 'toast-success' 
+                  : 'toast-error'
+              }`}>
+                <div className="flex items-start space-x-4">
+                  <div className={`toast-icon ${
+                    submitStatus === 'success' 
+                      ? 'text-green-400 bg-green-500/20' 
+                      : 'text-red-400 bg-red-500/20'
+                  }`}>
+                    <i className={`${
+                      submitStatus === 'success' 
+                        ? 'bi bi-check-circle-fill' 
+                        : 'bi bi-exclamation-triangle-fill'
+                    } text-xl`}></i>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className={`toast-title ${
+                      submitStatus === 'success' ? 'text-green-300' : 'text-red-300'
+                    }`}>
+                      {submitStatus === 'success' ? '🎉 Message Sent!' : '❌ Send Failed'}
+                    </h4>
+                    <p className={`toast-message ${
+                      submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+                    }`}>
+                      {submitStatus === 'success' 
+                        ? 'We\'ll get back to you within 24 hours!' 
+                        : 'Please try again or contact us directly.'
+                      }
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setSubmitStatus(null)}
+                    className="toast-close"
+                  >
+                    <i className="bi bi-x text-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* Quiz Modal */}

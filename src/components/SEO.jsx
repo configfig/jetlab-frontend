@@ -1,272 +1,221 @@
 // src/components/SEO.jsx
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SEO = () => {
+  const location = useLocation();
+
   useEffect(() => {
+    // Page-specific meta data
+    const getPageMeta = () => {
+      switch (location.pathname) {
+        case '/services/web-development':
+          return {
+            title: 'Custom Web Development Services | React, Node.js, Python | JetLab Chicago',
+            description: 'Expert web development services in Chicago. Custom websites, web applications, e-commerce platforms, and PWAs. React, Vue.js, Node.js, Python. Free consultation.',
+            keywords: 'web development chicago, custom websites, react development, node.js, python web development, progressive web apps, e-commerce development'
+          };
+        case '/services/digital-marketing':
+          return {
+            title: 'Digital Marketing Agency Chicago | PPC, SEO, Social Media | JetLab',
+            description: 'Full-service digital marketing agency in Chicago. PPC advertising, social media marketing, content marketing, email campaigns. Proven ROI results.',
+            keywords: 'digital marketing chicago, ppc advertising, social media marketing, content marketing, email marketing, google ads, facebook ads'
+          };
+        case '/services/ai-integration':
+          return {
+            title: 'AI Integration Services | Machine Learning, Automation | JetLab Chicago',
+            description: 'Transform your business with AI integration services. Machine learning, chatbots, process automation, predictive analytics. Enterprise AI solutions.',
+            keywords: 'ai integration, machine learning, artificial intelligence, chatbots, process automation, predictive analytics, ai development'
+          };
+        case '/services/seo-optimization':
+          return {
+            title: 'SEO Optimization Services Chicago | Top Google Rankings | JetLab',
+            description: 'Professional SEO services in Chicago. Technical SEO, keyword research, on-page optimization, link building. Get to the top of Google search results.',
+            keywords: 'seo services chicago, search engine optimization, google rankings, keyword research, technical seo, link building'
+          };
+        default:
+          return {
+            title: 'JetLab Digital Agency | Premium Web Development, AI Integration & Digital Marketing Services in Chicago',
+            description: 'Leading Chicago digital agency specializing in custom web development, AI integration, digital marketing, and SEO optimization. Trusted by Fortune 500 companies. Get your free consultation today!',
+            keywords: 'digital agency chicago, web development, AI integration, digital marketing, SEO optimization, custom websites, React development, marketing automation, enterprise solutions'
+          };
+      }
+    };
+
+    const { title, description, keywords } = getPageMeta();
+
     // Update document title
-    document.title = "JetLab Digital Agency | Premium Web Development, AI Integration & Digital Marketing Services in Chicago";
+    document.title = title;
 
     // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Leading Chicago digital agency specializing in custom web development, AI integration, digital marketing, and SEO optimization. Trusted by Fortune 500 companies. Get your free consultation today!');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = 'Leading Chicago digital agency specializing in custom web development, AI integration, digital marketing, and SEO optimization. Trusted by Fortune 500 companies. Get your free consultation today!';
-      document.head.appendChild(meta);
-    }
-
-    // Add keywords meta tag
-    const metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'digital agency chicago, web development, AI integration, digital marketing, SEO optimization, custom websites, React development, marketing automation, enterprise solutions');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'keywords';
-      meta.content = 'digital agency chicago, web development, AI integration, digital marketing, SEO optimization, custom websites, React development, marketing automation, enterprise solutions';
-      document.head.appendChild(meta);
-    }
-
-    // Add Open Graph meta tags
-    const ogTags = [
-      { property: 'og:title', content: 'JetLab Digital Agency | Premium Digital Solutions Chicago' },
-      { property: 'og:description', content: 'Transform your business with cutting-edge web development, AI integration, and digital marketing services. Chicago-based agency trusted by Fortune 500 companies.' },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://jetlabco.com' },
-      { property: 'og:image', content: 'https://jetlabco.com/og-image.jpg' },
-      { property: 'og:site_name', content: 'JetLab Digital Agency' },
-      { property: 'og:locale', content: 'en_US' }
-    ];
-
-    ogTags.forEach(tag => {
-      let existingTag = document.querySelector(`meta[property="${tag.property}"]`);
-      if (existingTag) {
-        existingTag.setAttribute('content', tag.content);
+    const updateOrCreateMeta = (name, content) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (meta) {
+        meta.setAttribute('content', content);
       } else {
-        const meta = document.createElement('meta');
-        meta.setAttribute('property', tag.property);
-        meta.content = tag.content;
+        meta = document.createElement('meta');
+        meta.name = name;
+        meta.content = content;
         document.head.appendChild(meta);
       }
-    });
+    };
 
-    // Add Twitter Card meta tags
-    const twitterTags = [
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:site', content: '@jetlabagency' },
-      { name: 'twitter:title', content: 'JetLab Digital Agency | Premium Digital Solutions Chicago' },
-      { name: 'twitter:description', content: 'Transform your business with cutting-edge web development, AI integration, and digital marketing services.' },
-      { name: 'twitter:image', content: 'https://jetlabco.com/twitter-image.jpg' }
-    ];
-
-    twitterTags.forEach(tag => {
-      let existingTag = document.querySelector(`meta[name="${tag.name}"]`);
-      if (existingTag) {
-        existingTag.setAttribute('content', tag.content);
+    const updateOrCreateProperty = (property, content) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (meta) {
+        meta.setAttribute('content', content);
       } else {
-        const meta = document.createElement('meta');
-        meta.name = tag.name;
-        meta.content = tag.content;
+        meta = document.createElement('meta');
+        meta.setAttribute('property', property);
+        meta.content = content;
         document.head.appendChild(meta);
       }
-    });
+    };
 
-    // Add additional SEO meta tags
-    const additionalTags = [
-      { name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' },
-      { name: 'author', content: 'JetLab Digital Agency' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { name: 'theme-color', content: '#000000' },
-      { name: 'msapplication-TileColor', content: '#000000' },
-      { name: 'geo.region', content: 'US-IL' },
-      { name: 'geo.placename', content: 'Chicago' },
-      { name: 'geo.position', content: '41.8781;-87.6298' },
-      { name: 'ICBM', content: '41.8781, -87.6298' }
-    ];
+    // Update basic meta tags
+    updateOrCreateMeta('description', description);
+    updateOrCreateMeta('keywords', keywords);
 
-    additionalTags.forEach(tag => {
-      let existingTag = document.querySelector(`meta[name="${tag.name}"]`);
-      if (!existingTag) {
-        const meta = document.createElement('meta');
-        meta.name = tag.name;
-        meta.content = tag.content;
-        document.head.appendChild(meta);
-      }
-    });
+    // Update Open Graph tags
+    updateOrCreateProperty('og:title', title);
+    updateOrCreateProperty('og:description', description);
+    updateOrCreateProperty('og:url', `https://jetlabco.com${location.pathname}`);
 
-    // Add canonical link
+    // Update Twitter tags
+    updateOrCreateMeta('twitter:title', title);
+    updateOrCreateMeta('twitter:description', description);
+
+    // Update canonical URL
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink) {
-      canonicalLink.setAttribute('href', 'https://jetlabco.com');
+      canonicalLink.setAttribute('href', `https://jetlabco.com${location.pathname}`);
     } else {
       const link = document.createElement('link');
       link.rel = 'canonical';
-      link.href = 'https://jetlabco.com';
+      link.href = `https://jetlabco.com${location.pathname}`;
       document.head.appendChild(link);
     }
 
-    // Add JSON-LD Schema for Organization
-    const organizationSchema = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "JetLab Digital Agency",
-      "alternateName": "JetLab",
-      "url": "https://jetlabco.com",
-      "logo": "https://jetlabco.com/logo.png",
-      "description": "Premier digital agency in Chicago specializing in web development, AI integration, digital marketing, and SEO optimization.",
-      "foundingDate": "2019",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Chicago",
-        "addressRegion": "IL",
-        "addressCountry": "US"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-555-123-4567",
-        "email": "info@jetlabco.com",
-        "contactType": "customer service",
-        "availableLanguage": "English"
-      },
-      "sameAs": [
-        "https://linkedin.com/company/jetlab-agency",
-        "https://twitter.com/jetlabagency",
-        "https://facebook.com/jetlabagency",
-        "https://instagram.com/jetlabagency"
-      ],
-      "areaServed": {
-        "@type": "GeoCircle",
-        "geoMidpoint": {
-          "@type": "GeoCoordinates",
-          "latitude": "41.8781",
-          "longitude": "-87.6298"
-        },
-        "geoRadius": "50000"
-      },
-      "priceRange": "$$$$",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "reviewCount": "150",
-        "bestRating": "5",
-        "worstRating": "1"
+    // Update structured data for specific pages
+    const updateStructuredData = () => {
+      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      if (existingScript) {
+        existingScript.remove();
       }
-    };
 
-    // Add Service Schema
-    const serviceSchema = {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Digital Agency Services",
-      "provider": {
-        "@type": "Organization",
-        "name": "JetLab Digital Agency"
-      },
-      "serviceType": [
-        "Web Development",
-        "Digital Marketing",
-        "AI Integration",
-        "SEO Optimization"
-      ],
-      "description": "Comprehensive digital services including custom web development, AI integration, digital marketing campaigns, and SEO optimization.",
-      "areaServed": {
-        "@type": "Country",
-        "name": "United States"
+      let structuredData = {};
+
+      if (location.pathname.startsWith('/services/')) {
+        // Service-specific structured data
+        const serviceName = location.pathname.split('/').pop().replace('-', ' ');
+        structuredData = {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": serviceName.charAt(0).toUpperCase() + serviceName.slice(1),
+          "provider": {
+            "@type": "Organization",
+            "name": "JetLab Digital Agency",
+            "url": "https://jetlabco.com"
+          },
+          "description": description,
+          "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+          },
+          "url": `https://jetlabco.com${location.pathname}`
+        };
+      } else {
+        // Homepage structured data
+        structuredData = {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "JetLab Digital Agency",
+              "alternateName": "JetLab",
+              "url": "https://jetlabco.com",
+              "logo": "https://jetlabco.com/logo.png",
+              "description": description,
+              "foundingDate": "2019",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Chicago",
+                "addressRegion": "IL",
+                "addressCountry": "US"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-555-123-4567",
+                "email": "info@jetlabco.com",
+                "contactType": "customer service",
+                "availableLanguage": "English"
+              },
+              "sameAs": [
+                "https://linkedin.com/company/jetlab-agency",
+                "https://twitter.com/jetlabagency",
+                "https://facebook.com/jetlabagency",
+                "https://instagram.com/jetlabagency"
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "reviewCount": "150",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "WebSite",
+              "name": "JetLab Digital Agency",
+              "url": "https://jetlabco.com",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://jetlabco.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }
+          ]
+        };
       }
+
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(structuredData);
+      document.head.appendChild(script);
     };
 
-    // Add WebSite Schema
-    const websiteSchema = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "JetLab Digital Agency",
-      "url": "https://jetlabco.com",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://jetlabco.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+    updateStructuredData();
+
+    // Add page-specific CSS classes to body
+    const addPageClass = () => {
+      document.body.className = document.body.className.replace(/page-[\w-]+/g, '');
+      const pageClass = location.pathname === '/' ? 'page-home' : `page-${location.pathname.split('/').pop()}`;
+      document.body.classList.add(pageClass);
     };
 
-    // Add ProfessionalService Schema
-    const professionalServiceSchema = {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "JetLab Digital Agency",
-      "image": "https://jetlabco.com/logo.png",
-      "url": "https://jetlabco.com",
-      "telephone": "+1-555-123-4567",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Digital Street",
-        "addressLocality": "Chicago",
-        "addressRegion": "IL",
-        "postalCode": "60601",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 41.8781,
-        "longitude": -87.6298
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday", 
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        "opens": "09:00",
-        "closes": "18:00"
-      },
-      "priceRange": "$$$$"
+    addPageClass();
+
+    // Preload critical resources for better performance
+    const preloadCriticalResources = () => {
+      const preloadLink = (href, as, type = null) => {
+        if (!document.querySelector(`link[href="${href}"]`)) {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.href = href;
+          link.as = as;
+          if (type) link.type = type;
+          document.head.appendChild(link);
+        }
+      };
+
+      // Preload fonts
+      preloadLink('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap', 'style');
     };
 
-    // Combine all schemas
-    const combinedSchema = {
-      "@context": "https://schema.org",
-      "@graph": [
-        organizationSchema,
-        serviceSchema,
-        websiteSchema,
-        professionalServiceSchema
-      ]
-    };
+    preloadCriticalResources();
 
-    // Remove existing schema if present
-    const existingSchema = document.querySelector('script[type="application/ld+json"]');
-    if (existingSchema) {
-      existingSchema.remove();
-    }
-
-    // Add new schema
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(combinedSchema);
-    document.head.appendChild(script);
-
-    // Add hreflang tags for internationalization
-    const hreflangTags = [
-      { rel: 'alternate', hreflang: 'en-us', href: 'https://jetlabco.com' },
-      { rel: 'alternate', hreflang: 'x-default', href: 'https://jetlabco.com' }
-    ];
-
-    hreflangTags.forEach(tag => {
-      let existingTag = document.querySelector(`link[hreflang="${tag.hreflang}"]`);
-      if (!existingTag) {
-        const link = document.createElement('link');
-        link.rel = tag.rel;
-        link.hreflang = tag.hreflang;
-        link.href = tag.href;
-        document.head.appendChild(link);
-      }
-    });
-
-  }, []);
+  }, [location]);
 
   return null; // This component doesn't render anything visible
 };

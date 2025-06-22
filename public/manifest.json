@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "JetLab",
+  "name": "JetLab Digital Agency - Premium Web Development & Digital Marketing",
+  "description": "Leading Chicago digital agency specializing in custom web development, AI integration, digital marketing, and SEO optimization.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +22,52 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "en-US",
+  "scope": "/",
+  "id": "/",
+  "shortcuts": [
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with JetLab",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Our Services",
+      "short_name": "Services",
+      "description": "View our digital services",
+      "url": "/#services",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "JetLab Digital Agency Desktop View"
+    },
+    {
+      "src": "screenshot-mobile.png",
+      "type": "image/png",
+      "sizes": "375x812",
+      "form_factor": "narrow",
+      "label": "JetLab Digital Agency Mobile View"
+    }
+  ]
 }

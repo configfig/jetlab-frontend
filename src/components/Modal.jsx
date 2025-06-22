@@ -1,30 +1,54 @@
 // src/components/Modal.jsx
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
+  const scrollPositionRef = useRef(0);
+
   useEffect(() => {
     if (isOpen) {
-      // Блокируем скролл когда модальное окно открыто
+      // Сохраняем текущую позицию скролла
+      scrollPositionRef.current = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Блокируем скролл и сохраняем позицию
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = '100%';
       document.documentElement.style.overflow = 'hidden';
       document.body.classList.add('modal-open');
       document.documentElement.classList.add('modal-open');
     } else {
-      // Восстанавливаем скролл
+      // Восстанавливаем скролл и позицию
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       document.documentElement.style.overflow = '';
       document.body.classList.remove('modal-open');
       document.documentElement.classList.remove('modal-open');
+      
+      // Восстанавливаем позицию скролла
+      if (scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current);
+      }
     }
     
     return () => {
       // Очищаем стили при размонтировании
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       document.documentElement.style.overflow = '';
       document.body.classList.remove('modal-open');
       document.documentElement.classList.remove('modal-open');
+      
+      // Восстанавливаем позицию скролла при размонтировании
+      if (scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current);
+      }
     };
   }, [isOpen]);
 

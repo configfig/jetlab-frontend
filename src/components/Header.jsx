@@ -17,7 +17,11 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    
+    // Set initial state
+    setIsScrolled(window.scrollY > 50);
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -125,10 +129,10 @@ const Header = () => {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`header-fixed ${
         isScrolled 
-          ? 'glass-dark shadow-dark' 
-          : 'bg-transparent'
+          ? 'header-scrolled' 
+          : 'header-transparent'
       }`}
     >
       <div className="container-custom">
@@ -136,7 +140,7 @@ const Header = () => {
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-3 cursor-pointer"
+            className="flex items-center space-x-3 cursor-pointer z-50 relative"
             onClick={() => navigateToPage('/')}
           >
             <div className="w-12 h-12 bg-light rounded-xl flex items-center justify-center">
@@ -179,7 +183,7 @@ const Header = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: -10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-80 glass-dark rounded-2xl border border-border/50 shadow-dark overflow-hidden"
+                          className="dropdown-menu"
                         >
                           <div className="p-4">
                             <div className="space-y-2">
