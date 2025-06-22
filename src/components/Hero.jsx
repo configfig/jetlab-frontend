@@ -127,7 +127,7 @@ const Hero = () => {
               >
                 <div className="space-y-2 lg:space-y-4">
                   <h1 className="text-5xl sm:text-6xl lg:text-7xl chakra-bold text-light leading-none">
-                    We Create
+                    We Create Amazing Solutions
                   </h1>
                   {/* Fixed width container for typewriter to prevent layout shifts */}
                   <div className="h-16 sm:h-20 lg:h-24 flex items-center">
