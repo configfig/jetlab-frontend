@@ -480,133 +480,14 @@ button:active {
   opacity: 1;
 }
 
-/* =============================================================================
-   MOBILE MODAL STYLES - Optimized for mobile devices
-   ============================================================================= */
-
-/* Modal Portal Wrapper */
-.modal-portal-wrapper {
-  position: relative;
-  z-index: 999999;
-}
-
-/* Mobile-optimized Modal Overlay */
-.modal-overlay-mobile {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important; /* For browsers supporting dvh */
-  z-index: 999999 !important;
-  background: rgba(0, 0, 0, 0.85) !important;
-  backdrop-filter: blur(4px) !important;
-  -webkit-backdrop-filter: blur(4px) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 12px !important;
-  margin: 0 !important;
-  transform: none !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-}
-
-/* Mobile-optimized Modal Content */
-.modal-content-mobile {
-  position: relative !important;
-  width: 100% !important;
-  max-height: calc(100vh - 24px) !important;
-  max-height: calc(100dvh - 24px) !important;
-  background-color: #1a1a1a !important;
-  border-radius: 16px !important;
-  border: 1px solid #333333 !important;
-  overflow: hidden !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
-  margin: auto !important;
-  transform: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-/* Modal Header - Mobile */
-.modal-header-mobile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #333333;
-  background-color: #1a1a1a;
-  flex-shrink: 0;
-}
-
-/* Modal Title - Mobile */
-.modal-title-mobile {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
-  font-family: 'Chakra Petch', sans-serif;
-  line-height: 1.3;
-}
-
-/* Modal Close Button - Mobile */
-.modal-close-button-mobile {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background-color: #2a2a2a;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: background-color 0.2s;
-  outline: none;
-  touch-action: manipulation;
-  min-height: 44px;
-  min-width: 44px;
-}
-
-.modal-close-button-mobile:hover {
-  background-color: #3a3a3a;
-}
-
-.modal-close-button-mobile:active {
-  background-color: #4a4a4a;
-  transform: scale(0.95);
-}
-
-/* Modal Body - Mobile */
-.modal-body-mobile {
-  padding: 16px 20px 20px;
-  flex: 1;
-  overflow-y: auto;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Custom scrollbar for modal body */
-.modal-body-mobile::-webkit-scrollbar {
-  width: 4px;
-}
-
-.modal-body-mobile::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-.modal-body-mobile::-webkit-scrollbar-thumb {
-  background: #666666;
-  border-radius: 2px;
-}
-
-.modal-body-mobile::-webkit-scrollbar-thumb:hover {
-  background: #888888;
+/* Modal system - Simplified and working */
+.modal-portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
 }
 
 /* Prevent scrolling when modal is open */
@@ -618,242 +499,50 @@ html.modal-open {
   width: 100% !important;
 }
 
-/* Mobile breakpoints for modals */
-@media (max-width: 480px) {
-  .modal-overlay-mobile {
-    padding: 8px !important;
-  }
-  
-  .modal-content-mobile {
-    max-width: calc(100vw - 16px) !important;
-    max-height: calc(100vh - 16px) !important;
-    max-height: calc(100dvh - 16px) !important;
-    border-radius: 12px !important;
-  }
-
-  .modal-header-mobile {
-    padding: 12px 16px;
-  }
-
-  .modal-body-mobile {
-    padding: 12px 16px 16px;
-  }
-
-  .modal-title-mobile {
-    font-size: 1.125rem;
-  }
-
-  .modal-close-button-mobile {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .modal-content-mobile {
-    max-width: calc(100vw - 32px) !important;
-    max-height: calc(100vh - 32px) !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .modal-overlay-mobile {
-    padding: 24px !important;
-  }
-  
-  .modal-content-mobile {
-    max-width: 90vw !important;
-    max-height: 90vh !important;
-  }
-
-  .modal-header-mobile {
-    padding: 24px;
-  }
-
-  .modal-body-mobile {
-    padding: 24px;
-  }
-
-  .modal-title-mobile {
-    font-size: 1.5rem;
-  }
-
-  .modal-close-button-mobile {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-}
-
-/* =============================================================================
-   MOBILE SIDEBAR STYLES - Fixed positioning with internal scroll
-   ============================================================================= */
-
-/* Mobile Sidebar Container */
-.mobile-sidebar {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 90vw !important;
-  max-width: 380px !important;
-  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-left: 1px solid #333333 !important;
-  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8) !important;
-  z-index: 999998 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-}
-
-/* Mobile Sidebar Header - Fixed */
-.mobile-sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 20px;
-  border-bottom: 1px solid #333333;
-  background: linear-gradient(90deg, #1a1a1a 0%, #222222 100%);
-  flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Mobile Sidebar Content - Scrollable */
-.mobile-sidebar-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
-}
-
-/* Custom scrollbar for sidebar */
-.mobile-sidebar-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.mobile-sidebar-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.mobile-sidebar-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-.mobile-sidebar-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Mobile sidebar optimizations */
-@media (max-width: 480px) {
-  .mobile-sidebar {
-    width: 95vw !important;
-    max-width: none !important;
-  }
-  
-  .mobile-sidebar-header {
-    padding: 20px 16px;
-  }
-  
-  .mobile-sidebar-content {
-    padding: 16px;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .mobile-sidebar {
-    width: 85vw !important;
-    max-width: 360px !important;
-  }
-}
-
-/* Sidebar animations performance */
-.mobile-sidebar * {
-  will-change: auto;
-}
-
-/* iOS Safari fixes for sidebar */
-@supports (-webkit-touch-callout: none) {
-  .mobile-sidebar {
-    height: 100vh !important;
-    height: -webkit-fill-available !important;
-  }
-  
-  .mobile-sidebar-content {
-    height: auto !important;
-    max-height: none !important;
-  }
-}
-
-/* Remove any transforms that might break fixed positioning */
-.modal-overlay-mobile,
-.modal-overlay-mobile *,
-.mobile-sidebar,
-.mobile-sidebar * {
-  backface-visibility: visible !important;
-  perspective: none !important;
-  transform-style: flat !important;
-}
-
-/* Force no transforms on body when modal/sidebar is open */
-body.modal-open {
-  transform: none !important;
-}
-
-html.modal-open {
-  transform: none !important;
-}
-
-/* Ensure backdrop always covers full screen */
-.modal-overlay-mobile::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: -1;
-}
-
-/* Animation performance optimization */
-.modal-overlay-mobile {
-  will-change: opacity;
-}
-
-.modal-content-mobile {
-  will-change: transform, opacity;
-}
-
-.mobile-sidebar {
-  will-change: transform;
-}
-
-/* High contrast mode support */
+/* High contrast mode support for modals */
 @media (prefers-contrast: high) {
-  .modal-content-mobile,
-  .mobile-sidebar {
+  .modal-portal {
     border: 2px solid #ffffff !important;
   }
-  
-  .modal-close-button-mobile {
-    border: 1px solid #ffffff;
+}
+
+/* Reduced motion support for modals */
+@media (prefers-reduced-motion: reduce) {
+  .modal-portal * {
+    transition: none !important;
+    animation: none !important;
   }
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .modal-overlay-mobile,
-  .modal-content-mobile,
-  .mobile-sidebar {
-    transition: none !important;
-    animation: none !important;
+/* App loading state */
+body.app-loaded .fade-in-up {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Better scrolling on all devices */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Responsive font scaling */
+@media (max-width: 320px) {
+  /* Extra small devices */
+  .responsive-heading {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .responsive-text {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+  }
+}
+
+/* Optimize for foldable devices */
+@media (max-width: 280px) {
+  .container-custom {
+    padding: 0 12px;
+  }
+
+  .section-padding {
+    padding: 3rem 12px;
   }
 }
