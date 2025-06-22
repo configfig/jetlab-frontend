@@ -1,4 +1,4 @@
-// src/components/Modal.jsx - ИСПРАВЛЕНО
+// src/components/Modal.jsx - ИСПРАВЛЕНО И ОПТИМИЗИРОВАНО
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
