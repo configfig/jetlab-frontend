@@ -345,18 +345,18 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
   if (submitStatus === 'success') {
     return (
       <Modal isOpen={isOpen} onClose={handleClose} title="Thank You!" size="md">
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-6 py-4">
           <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
             <i className="bi bi-check-circle text-green-400 text-4xl"></i>
           </div>
           <div>
             <h3 className="text-2xl chakra-semibold text-light mb-2">Request Submitted!</h3>
-            <p className="text-muted chakra-light">
+            <p className="text-muted chakra-light leading-relaxed">
               Thank you for your interest in our {service.toLowerCase()} services. 
               We'll review your requirements and get back to you within 24 hours at {quizData.email}.
             </p>
           </div>
-          <div className="p-4 bg-dark-600 rounded-lg">
+          <div className="p-4 bg-dark-600 rounded-lg text-left">
             <p className="text-sm text-muted">
               <strong className="text-light">Next Steps:</strong><br/>
               • Our team will review your requirements<br/>
@@ -374,7 +374,7 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
     <Modal isOpen={isOpen} onClose={handleClose} title={`${service} Consultation`} size="lg">
       <div className="space-y-6">
         {/* Progress Bar */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-sm chakra-medium text-muted">
               Step {currentStep + 1} of {quizSteps.length}
@@ -405,10 +405,10 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
           >
             {/* Step Header */}
             <div className="text-center space-y-2">
-              <h3 className="text-2xl chakra-semibold text-light">
+              <h3 className="text-xl lg:text-2xl chakra-semibold text-light">
                 {quizSteps[currentStep].title}
               </h3>
-              <p className="text-muted chakra-light">
+              <p className="text-muted chakra-light text-sm lg:text-base">
                 {quizSteps[currentStep].subtitle}
               </p>
             </div>
@@ -416,31 +416,31 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
             {/* Step Fields */}
             {quizSteps[currentStep].type === 'checkbox' ? (
               <div className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
                   {quizSteps[currentStep].options.map((option) => (
                     <motion.div
                       key={option.id}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleGoalToggle(option.id)}
-                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                      className={`p-3 lg:p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                         quizData.goals.includes(option.id)
                           ? 'border-light bg-light/10'
                           : 'border-border bg-dark-600 hover:border-light/50'
                       }`}
                     >
                       <div className="flex items-center space-x-3">
-                        <div className={`w-6 h-6 rounded border-2 flex items-center justify-center ${
+                        <div className={`w-5 h-5 lg:w-6 lg:h-6 rounded border-2 flex items-center justify-center flex-shrink-0 ${
                           quizData.goals.includes(option.id)
                             ? 'border-light bg-light'
                             : 'border-border'
                         }`}>
                           {quizData.goals.includes(option.id) && (
-                            <i className="bi bi-check text-dark text-sm"></i>
+                            <i className="bi bi-check text-dark text-xs lg:text-sm"></i>
                           )}
                         </div>
-                        <i className={`${option.icon} text-light text-xl`}></i>
-                        <span className="chakra-medium text-light">{option.label}</span>
+                        <i className={`${option.icon} text-light text-lg lg:text-xl flex-shrink-0`}></i>
+                        <span className="chakra-medium text-light text-sm lg:text-base leading-tight">{option.label}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -453,9 +453,9 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
               <div className="space-y-4">
                 {quizSteps[currentStep].fields?.map((field) => (
                   <div key={field.key} className="space-y-2">
-                    <label className="flex items-center space-x-2 chakra-medium text-light">
-                      <i className={`${field.icon} text-light`}></i>
-                      <span>{field.label} {field.required && '*'}</span>
+                    <label className="flex items-center space-x-2 chakra-medium text-light text-sm lg:text-base">
+                      <i className={`${field.icon} text-light flex-shrink-0`}></i>
+                      <span>{field.label} {field.required && <span className="text-red-400">*</span>}</span>
                     </label>
                     {renderField(field)}
                     {errors[field.key] && (
@@ -469,11 +469,13 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
         </AnimatePresence>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between pt-6 border-t border-border">
+        <div className="flex flex-col sm:flex-row justify-between gap-3 pt-6 border-t border-border">
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
-            className={`btn-secondary ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`btn-secondary text-sm lg:text-base py-2 lg:py-3 px-4 lg:px-6 ${
+              currentStep === 0 ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             <i className="bi bi-arrow-left mr-2"></i>
             Back
@@ -482,7 +484,9 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
           <button
             onClick={handleNext}
             disabled={isSubmitting}
-            className={`btn-primary ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`btn-primary text-sm lg:text-base py-2 lg:py-3 px-4 lg:px-6 ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             {isSubmitting ? (
               <>
@@ -510,11 +514,14 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
             animate={{ opacity: 1, y: 0 }}
             className="p-4 bg-red-900/50 border border-red-500/50 rounded-lg"
           >
-            <div className="flex items-center space-x-2">
-              <i className="bi bi-exclamation-triangle text-red-400"></i>
-              <span className="chakra-medium text-red-400">
-                Failed to submit consultation request. Please check your information and try again, or contact us directly at info@jetlabco.com
-              </span>
+            <div className="flex items-start space-x-3">
+              <i className="bi bi-exclamation-triangle text-red-400 flex-shrink-0 mt-0.5"></i>
+              <div>
+                <h4 className="chakra-semibold text-red-400 text-sm mb-1">Submission Failed</h4>
+                <p className="text-red-300 text-xs leading-relaxed">
+                  Failed to submit consultation request. Please check your information and try again, or contact us directly at info@jetlabco.com
+                </p>
+              </div>
             </div>
           </motion.div>
         )}
