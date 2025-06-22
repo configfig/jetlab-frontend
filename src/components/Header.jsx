@@ -488,7 +488,7 @@ const Header = () => {
             </motion.div>
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence> 
     </>
   );
 };
