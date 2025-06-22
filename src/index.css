@@ -1,13 +1,349 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Matangi:wght@300..900&display=swap');
+
+/* Import Bootstrap Icons */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+  
+  body {
+    @apply bg-dark text-light font-chakra;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Remove focus outlines for mouse users */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Better focus for keyboard users */
+  *:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Remove link outlines */
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  a:focus, button:focus {
+    outline: none;
+  }
+
+  /* Better touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  /* Font Weight Classes */
+  .chakra-light { font-family: "Chakra Petch", sans-serif; font-weight: 300; }
+  .chakra-regular { font-family: "Chakra Petch", sans-serif; font-weight: 400; }
+  .chakra-medium { font-family: "Chakra Petch", sans-serif; font-weight: 500; }
+  .chakra-semibold { font-family: "Chakra Petch", sans-serif; font-weight: 600; }
+  .chakra-bold { font-family: "Chakra Petch", sans-serif; font-weight: 700; }
+  
+  .matangi-300 { font-family: "Matangi", sans-serif; font-weight: 300; }
+  .matangi-400 { font-family: "Matangi", sans-serif; font-weight: 400; }
+  .matangi-500 { font-family: "Matangi", sans-serif; font-weight: 500; }
+  .matangi-600 { font-family: "Matangi", sans-serif; font-weight: 600; }
+  .matangi-700 { font-family: "Matangi", sans-serif; font-weight: 700; }
+  
+  /* Custom Button Styles */
+  .btn-primary {
+    @apply bg-light text-dark px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-light/90 hover:shadow-lg hover:-translate-y-1 focus:ring-2 focus:ring-light/20 focus:outline-none;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-light border-2 border-light px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-light hover:text-dark hover:shadow-lg hover:-translate-y-1 focus:ring-2 focus:ring-light/20 focus:outline-none;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-light px-6 py-3 lg:px-8 lg:py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-dark-600 focus:ring-2 focus:ring-light/20 focus:outline-none;
+  }
+  
+  /* Card Styles */
+  .card {
+    @apply bg-dark-700 rounded-2xl shadow-dark border border-border transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  .card-glass {
+    @apply bg-dark-700/80 backdrop-blur-lg rounded-2xl border border-border/50 shadow-glass;
+  }
+  
+  /* Input Styles */
+  .input-field {
+    @apply w-full px-4 py-3 lg:py-4 bg-dark-600 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-light/20 focus:border-light transition-all duration-300 text-light;
+  }
+  
+  .input-field::placeholder {
+    @apply text-muted;
+  }
+  
+  /* Custom Select */
+  .select-field {
+    @apply input-field appearance-none cursor-pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+  }
+  
+  /* Section Padding */
+  .section-padding {
+    @apply py-12 px-4 lg:py-20 lg:px-6;
+  }
+  
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 lg:px-6;
+  }
+  
+  /* Glass Effects */
+  .glass-dark {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-light {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Performance optimizations */
+  .gpu-layer {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Mobile-first responsive typography */
+  .responsive-heading {
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    line-height: 1.1;
+  }
+
+  .responsive-text {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    line-height: 1.5;
+  }
 }
+
+@layer utilities {
+  /* Custom Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Text shadows for better contrast */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Custom scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 3px;
+  }
+  
+  /* Selection */
+  ::selection {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  /* Mobile performance optimizations */
+  .mobile-optimized {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+  }
+
+  /* Improved touch interactions */
+  .touch-feedback {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.1s ease;
+  }
+
+  .touch-feedback:active {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  /* Better touch targets on mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Better modal sizing on mobile */
+  .modal-content {
+    margin: 16px;
+    max-height: calc(100vh - 32px);
+  }
+
+  /* Optimized animations for mobile */
+  .mobile-fade {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  /* Hide complex animations on slower devices */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .section-padding {
+    @apply py-16 px-6;
+  }
+
+  .container-custom {
+    @apply px-6;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Crisp images on retina displays */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .transition-smooth {
+    transition: none !important;
+  }
+  
+  .mobile-optimized {
+    transform: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .card, .card-glass {
+    border: 1px solid #000 !important;
+    background: white !important;
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .input-field {
+    -webkit-appearance: none;
+    border-radius: 8px;
+  }
+  
+  button {
+    -webkit-appearance: none;
+  }
+}
+
+/* Performance optimizations for older devices */
+@media (max-width: 480px) {
+  /* Reduce complex effects on small screens */
+  .glass-dark, .glass-light {
+    backdrop-filter: none;
+    background: rgba(26, 26, 26, 0.95);
+  }
+  
+  /* Simplified animations */
+  .card:hover {
+    transform: none;
+  }
+  
+  /* Better text sizing */
+  .text-4xl {
+    font-size: 2rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 3rem !important;
+  }
+}
+

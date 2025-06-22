@@ -1,38 +1,727 @@
+/* App Base Styles - Dark Theme - Optimized for Performance */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #000000;
+  font-family: 'Chakra Petch', sans-serif;
+  color: #ffffff;
+  /* Performance optimizations */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: auto;
 }
 
-.App-link {
-  color: #61dafb;
+/* Smooth Scrolling - Optimized */
+html {
+  scroll-behavior: smooth;
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  /* Better font rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+/* Remove default margins and paddings */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body overrides - Performance focused */
+body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-color: #000000;
+  color: #ffffff;
+  /* Better touch handling */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  /* Performance */
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Improved focus styles - Remove ugly outlines */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove tap highlight */
+a, button, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+/* Custom scrollbar - Optimized */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e5e5e5;
+}
+
+/* Loading animation for form submissions - GPU accelerated */
+@keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  will-change: transform;
+}
+
+/* Additional utility classes */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Glass morphism effects - Performance optimized */
+.glass-effect {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Performance optimization */
+  will-change: transform;
+}
+
+/* Smooth transitions for all interactive elements */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* Button hover effects - GPU accelerated */
+.btn-hover-effect {
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-hover-effect:hover::before {
+  left: 100%;
+}
+
+/* Card animations - Optimized */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Text animations - GPU accelerated */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Touch target optimization */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Better button states */
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Mobile-first responsive typography */
+.responsive-heading {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.responsive-subheading {
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  line-height: 1.2;
+}
+
+.responsive-text {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* Responsive improvements for mobile */
+@media (max-width: 768px) {
+  /* Better touch targets */
+  .responsive-text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .responsive-text-2xl {
+    font-size: 1.5rem;
+  }
+  
+  .responsive-text-4xl {
+    font-size: 2.25rem;
+  }
+
+  /* Reduce motion on mobile for better performance */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Optimize animations for mobile */
+  .smooth-transition {
+    transition: all 0.2s ease;
+  }
+
+  /* Better touch feedback */
+  button:active, .touch-target:active {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Optimize typography spacing */
+  .text-tight {
+    line-height: 1.1;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .responsive-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .glass-effect, .backdrop-blur {
+    backdrop-filter: none !important;
+    background: white !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-muted {
+    color: #ffffff !important;
+  }
+  
+  .border-border {
+    border-color: #ffffff !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .smooth-transition {
+    transition: none !important;
+  }
+
+  .gpu-accelerated {
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  .backdrop-blur, .glass-effect {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Dark mode color scheme */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000000;
+    color: #ffffff;
+  }
+}
+
+/* Custom properties for theming - Performance optimized */
+:root {
+  --color-dark: #000000;
+  --color-dark-800: #0a0a0a;
+  --color-dark-700: #1a1a1a;
+  --color-dark-600: #2a2a2a;
+  --color-light: #ffffff;
+  --color-muted: #888888;
+  --color-border: #333333;
+  
+  --font-chakra: 'Chakra Petch', sans-serif;
+  --font-matangi: 'Matangi', sans-serif;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-dark: 0 4px 15px 0 rgba(0, 0, 0, 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  /* Performance variables */
+  --gpu-layer: translateZ(0);
+  --will-change-transform: transform;
+  --will-change-auto: auto;
+}
+
+/* Component-specific styles - Optimized */
+.hero-background {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+  will-change: auto;
+}
+
+.section-background {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+}
+
+/* Animation keyframes - GPU optimized */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+/* Container styles - Optimized */
+.container-max {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-max {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #ffffff;
+  color: #000000;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .input-field {
+    -webkit-appearance: none;
+    border-radius: 8px;
+  }
+  
+  button {
+    -webkit-appearance: none;
+  }
+  
+  /* Fix for iOS viewport height issues */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Performance optimizations for older devices */
+@media (max-width: 480px) {
+  /* Reduce complex effects on small screens */
+  .glass-dark, .glass-light {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(26, 26, 26, 0.95);
+  }
+  
+  /* Simplified animations */
+  .card:hover {
+    transform: none;
+  }
+  
+  /* Disable will-change on mobile to save memory */
+  .gpu-accelerated, .smooth-transition {
+    will-change: auto;
+  }
+}
+
+/* Critical loading optimizations */
+.critical-resource {
+  font-display: swap;
+}
+
+/* Lazy loading optimization */
+.lazy-load {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+}
+
+/* Modal Styles - Добавьте в конец App.css */
+
+/* Modal Portal Wrapper */
+.modal-portal-wrapper {
+  position: relative;
+  z-index: 999999;
+}
+
+/* Modal Overlay - Fixed positioning */
+.modal-overlay-fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  margin: 0 !important;
+  transform: none !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Modal Content Wrapper */
+.modal-content-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  max-height: 90vh !important;
+  background-color: #1a1a1a !important;
+  border-radius: 1rem !important;
+  border: 1px solid #333333 !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  margin: auto !important;
+  transform: none !important;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid #333333;
+  background-color: #1a1a1a;
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+/* Modal Close Button */
+.modal-close-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: background-color 0.2s;
+  outline: none;
+}
+
+.modal-close-button:hover {
+  background-color: #3a3a3a;
+}
+
+.modal-close-button:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 24px;
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+/* Custom scrollbar for modal body */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #e5e5e5;
+}
+
+/* Prevent scrolling when modal is open */
+body.modal-open,
+html.modal-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  position: fixed !important;
+  width: 100% !important;
+}
+
+/* Size variants */
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.max-w-6xl {
+  max-width: 72rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .modal-overlay-fixed {
+    padding: 8px !important;
+  }
+  
+  .modal-content-wrapper {
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 16px) !important;
+    margin: 8px !important;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
+    max-height: calc(100vh - 100px);
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  .modal-overlay-fixed {
+    height: -webkit-fill-available !important;
+  }
+  
+  .modal-content-wrapper {
+    max-height: calc(-webkit-fill-available - 32px) !important;
+  }
+}
+
+/* Android Chrome fixes */
+@media screen and (max-width: 768px) {
+  .modal-overlay-fixed {
+    height: 100vh !important;
+    height: 100dvh !important; /* For browsers supporting dvh */
+  }
+}
+
+/* Remove any transforms that might break fixed positioning */
+.modal-overlay-fixed,
+.modal-overlay-fixed * {
+  backface-visibility: visible !important;
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+/* Force no transforms on body when modal is open */
+body.modal-open {
+  transform: none !important;
+}
+
+html.modal-open {
+  transform: none !important;
+}
+
+/* Ensure backdrop always covers full screen */
+.modal-overlay-fixed::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: -1;
+}
+
+/* Animation performance optimization */
+.modal-overlay-fixed {
+  will-change: opacity;
+}
+
+.modal-content-wrapper {
+  will-change: transform, opacity;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .modal-content-wrapper {
+    border: 2px solid #ffffff !important;
+  }
+  
+  .modal-close-button {
+    border: 1px solid #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay-fixed,
+  .modal-content-wrapper {
+    transition: none !important;
+    animation: none !important;
   }
 }
