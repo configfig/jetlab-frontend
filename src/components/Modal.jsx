@@ -1,45 +1,75 @@
 // src/components/Modal.jsx
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
-  
+  const scrollPositionRef = useRef(0);
+
   useEffect(() => {
     if (isOpen) {
-      // Блокируем скролл и фиксируем позицию
-      const scrollY = window.scrollY;
+      // Save current scroll position
+      scrollPositionRef.current = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${scrollPositionRef.current}px`;
       document.body.style.left = '0';
       document.body.style.right = '0';
-      document.body.style.overflow = 'hidden';
+      document.body.style.width = '100%';
       document.documentElement.style.overflow = 'hidden';
+      
+      // Add modal open class
+      document.body.classList.add('modal-open');
+      document.documentElement.classList.add('modal-open');
     } else {
-      // Восстанавливаем скролл
-      const scrollY = document.body.style.top;
+      // Restore scroll
+      document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
-      document.body.style.overflow = '';
+      document.body.style.width = '';
       document.documentElement.style.overflow = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      
+      // Remove classes
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
+      
+      // Restore scroll position
+      if (scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current);
+        scrollPositionRef.current = 0;
       }
     }
     
     return () => {
+      // Cleanup on unmount
+      document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
-      document.body.style.overflow = '';
+      document.body.style.width = '';
       document.documentElement.style.overflow = '';
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
+      
+      if (scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current);
+      }
     };
   }, [isOpen]);
 
-  // Закрытие по Escape
+  // Handle backdrop click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -56,164 +86,68 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
     };
   }, [isOpen, onClose]);
 
-  // Размеры модалки
-  const getMaxWidth = () => {
-    switch (size) {
-      case 'sm': return '28rem';      // 448px
-      case 'md': return '42rem';      // 672px  
-      case 'lg': return '56rem';      // 896px
-      case 'xl': return '72rem';      // 1152px
-      default: return '42rem';
-    }
-  };
-
-  if (!isOpen) return null;
-
-  // КРИТИЧНО: Инлайн стили с максимальным приоритетом
-  const portalStyles = {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    right: '0', 
-    bottom: '0',
-    zIndex: '999999',
-    width: '100vw',
-    height: '100vh',
-    pointerEvents: 'auto',
-    overflow: 'hidden'
-  };
-
-  const backdropStyles = {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0', 
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    backdropFilter: 'blur(4px)',
-    WebkitBackdropFilter: 'blur(4px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1rem',
-    overflowY: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    overscrollBehavior: 'contain'
-  };
-
-  const contentStyles = {
-    position: 'relative',
-    width: '100%',
-    maxWidth: getMaxWidth(),
-    maxHeight: 'calc(100vh - 2rem)',
-    backgroundColor: '#1a1a1a',
-    border: '1px solid #333333',
-    borderRadius: '1rem',
-    overflow: 'hidden',
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8)',
-    transform: 'none',
-    margin: 'auto',
-    display: 'flex',
-    flexDirection: 'column'
-  };
-
-  const headerStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '1.5rem',
-    borderBottom: '1px solid #333333',
-    backgroundColor: '#1a1a1a',
-    flexShrink: '0'
-  };
-
-  const bodyStyles = {
-    padding: '1.5rem',
-    overflowY: 'auto',
-    flex: '1',
-    maxHeight: 'calc(100vh - 8rem)',
-    WebkitOverflowScrolling: 'touch',
-    overscrollBehavior: 'contain'
-  };
-
-  const closeButtonStyles = {
-    width: '2.5rem',
-    height: '2.5rem',
-    borderRadius: '0.5rem',
-    backgroundColor: '#2a2a2a',
-    color: '#ffffff',
-    border: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'background 0.3s ease',
-    cursor: 'pointer',
-    outline: 'none'
-  };
-
-  const titleStyles = {
-    fontSize: '1.5rem',
-    fontWeight: '600',
-    color: '#ffffff',
-    fontFamily: '"Chakra Petch", sans-serif'
-  };
-
-  // Мобильные стили
-  const isMobile = window.innerWidth <= 768;
-  if (isMobile) {
-    backdropStyles.padding = '0.75rem';
-    contentStyles.maxHeight = 'calc(100vh - 1.5rem)';
-    contentStyles.borderRadius = '0.75rem';
-    headerStyles.padding = '1rem';
-    bodyStyles.padding = '1rem';
-    bodyStyles.maxHeight = 'calc(100vh - 6rem)';
-    titleStyles.fontSize = '1.25rem';
+  if (!isOpen) {
+    return null;
   }
 
+  const sizeClasses = {
+    sm: 'max-w-md',
+    md: 'max-w-2xl',
+    lg: 'max-w-4xl',
+    xl: 'max-w-6xl'
+  };
+
   return (
-    <div style={portalStyles}>
-      <div 
-        style={backdropStyles}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            onClose();
-          }
-        }}
-      >
-        <AnimatePresence>
+    <div className="modal-portal">
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)'
+          }}
+          onClick={handleBackdropClick}
+        >
+          {/* Modal Content */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             transition={{ duration: 0.3 }}
-            style={contentStyles}
+            className={`relative w-full ${sizeClasses[size]} max-h-[90vh] bg-dark-700 border border-border rounded-2xl overflow-hidden shadow-2xl`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div style={headerStyles}>
-              <h3 style={titleStyles}>
+            <div className="flex items-center justify-between p-6 border-b border-border bg-dark-700">
+              <h3 className="text-xl lg:text-2xl chakra-semibold text-light">
                 {title}
               </h3>
               <button
                 onClick={onClose}
-                style={closeButtonStyles}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#3a3a3a'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#2a2a2a'}
+                className="w-10 h-10 rounded-lg bg-dark-600 hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center text-light"
                 aria-label="Close modal"
               >
-                <i className="bi bi-x" style={{ fontSize: '1.25rem' }}></i>
+                <i className="bi bi-x text-xl"></i>
               </button>
             </div>
             
             {/* Body */}
-            <div style={bodyStyles}>
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               {children}
             </div>
           </motion.div>
-        </AnimatePresence>
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
