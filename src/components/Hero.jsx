@@ -303,7 +303,7 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Scroll Indicator - Better positioned */}
+          {/* Scroll Indicator - Fixed positioning */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
@@ -337,7 +337,7 @@ const Hero = () => {
         title="Our Services"
         size="lg"
       >
-        <div className="space-y-6 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        <div className="space-y-6">
           <div className="grid gap-6">
             {[
               {
@@ -390,10 +390,10 @@ const Hero = () => {
         </div>
         
         <div className="mt-6 flex flex-col sm:flex-row gap-4 pt-4 border-t border-border">
-          <button onClick={scrollToServices} className="btn-primary flex-1 touch-target">
+          <button onClick={scrollToServices} className="btn-primary flex-1">
             View All Services
           </button>
-          <button onClick={scrollToContact} className="btn-secondary flex-1 touch-target">
+          <button onClick={scrollToContact} className="btn-secondary flex-1">
             Get Quote
           </button>
         </div>
