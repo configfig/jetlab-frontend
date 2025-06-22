@@ -123,16 +123,6 @@ function App() {
     // Add app-loaded class for animations
     document.body.classList.add('app-loaded');
 
-    // Performance optimizations
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        // Preload service worker if available
-        if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-          navigator.serviceWorker.register('/sw.js').catch(console.error);
-        }
-      });
-    }
-
     // Analytics and performance tracking (only in production)
     if (process.env.NODE_ENV === 'production') {
       // Track page load performance
@@ -142,7 +132,7 @@ function App() {
             const timing = performance.timing;
             const loadTime = timing.loadEventEnd - timing.navigationStart;
             
-            // Log performance metrics (replace with your analytics)
+            // Log performance metrics
             console.log('Page Load Time:', loadTime + 'ms');
             
             // Send to analytics if available
