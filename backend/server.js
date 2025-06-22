@@ -33,12 +33,12 @@ const emailLimiter = rateLimit({
 
 // SMTP Configuration
 const transporter = nodemailer.createTransporter({
-  host: 'smtp.jetlabco.com',
-  port: 587,
-  secure: false, // true для 465, false для остальных портов
+  host: process.env.SMTP_HOST || 'localhost',
+  port: process.env.SMTP_PORT || 587,
+  secure: false,
   auth: {
-    user: 'info@jetlabco.com',
-    pass: 'Vv1G2zR9u9'
+    user: process.env.SMTP_USER || 'info@jetlabco.com',
+    pass: process.env.SMTP_PASS || 'Vv1G2zR9u9'
   },
   tls: {
     rejectUnauthorized: false // Разрешить самоподписанные сертификаты
