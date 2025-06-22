@@ -529,5 +529,5 @@ const QuizModal = ({ isOpen, onClose, service = 'General Inquiry' }) => {
     </Modal>
   );
 };
-
+ 
 export default QuizModal;
