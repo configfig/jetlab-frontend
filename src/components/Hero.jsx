@@ -84,7 +84,7 @@ const Hero = () => {
 
   return (
     <>
-      <section id="hero" ref={ref} className="relative min-h-screen bg-dark overflow-hidden pt-24 md:pt-20">
+      <section id="hero" ref={ref} className="hero-section">
         {/* Independent Floating Elements Background */}
         <div className="absolute inset-0 pointer-events-none">
           {floatingElements.map((element) => (
@@ -111,7 +111,7 @@ const Hero = () => {
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 container-custom min-h-screen flex items-center">
+        <div className="relative z-10 container-custom hero-content">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
             
             {/* Left Column - Text Content */}
@@ -129,13 +129,13 @@ const Hero = () => {
                 className="space-y-4 lg:space-y-6"
               >
                 <div className="space-y-2 lg:space-y-4">
-                  <h1 className="text-5xl sm:text-6xl lg:text-7xl chakra-bold text-light leading-none">
+                  <h1 className="hero-main-title">
                     We Create:
                   </h1>
                   {/* Fixed width container for typewriter to prevent layout shifts */}
-                  <div className="h-16 sm:h-20 lg:h-24 flex items-center">
+                  <div className="hero-typewriter-container">
                     <div className="w-full min-w-0"> {/* Prevent overflow */}
-                      <span className="text-3xl sm:text-5xl lg:text-6xl chakra-bold text-light whitespace-nowrap overflow-hidden leading-none">
+                      <span className="hero-typewriter-text">
                         {text}
                         <motion.span
                           animate={{ opacity: [1, 0, 1] }}
@@ -149,7 +149,7 @@ const Hero = () => {
                   </div>
                 </div>
                 
-                <p className="text-lg sm:text-xl lg:text-2xl text-muted chakra-light leading-relaxed max-w-2xl">
+                <p className="hero-description">
                   Transform your business with cutting-edge digital solutions. We're a premier digital agency specializing in web development, AI integration, marketing automation, and SEO optimization.
                 </p>
               </motion.div>
@@ -159,7 +159,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="grid grid-cols-2 gap-3 lg:gap-4"
+                className="hero-features-grid"
               >
                 {[
                   { icon: 'bi-code-slash', text: 'Expert Development' },
@@ -167,11 +167,11 @@ const Hero = () => {
                   { icon: 'bi-robot', text: 'AI Integration' },
                   { icon: 'bi-search', text: 'SEO Mastery' }
                 ].map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-2 lg:space-x-3">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-dark-600 rounded-xl flex items-center justify-center">
+                  <div key={index} className="hero-feature-item">
+                    <div className="hero-feature-icon">
                       <i className={`${feature.icon} text-light text-lg lg:text-xl`}></i>
                     </div>
-                    <span className="chakra-medium text-light text-sm lg:text-base">{feature.text}</span>
+                    <span className="hero-feature-text">{feature.text}</span>
                   </div>
                 ))}
               </motion.div>
@@ -181,11 +181,11 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-3 lg:gap-4"
+                className="hero-cta-buttons"
               >
                 <button
                   onClick={() => setShowProjectModal(true)}
-                  className="btn-primary flex items-center justify-center space-x-2 touch-target"
+                  className="btn-primary hero-btn-primary"
                 >
                   <span>Start Your Project</span>
                   <i className="bi bi-arrow-right"></i>
@@ -193,7 +193,7 @@ const Hero = () => {
                 
                 <button
                   onClick={() => setShowServicesModal(true)}
-                  className="btn-secondary flex items-center justify-center space-x-2 touch-target"
+                  className="btn-secondary hero-btn-secondary"
                 >
                   <span>View Services</span>
                   <i className="bi bi-play-circle"></i>
@@ -308,15 +308,15 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.4, delay: 1 }}
-            className="absolute bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2"
+            className="hero-scroll-indicator"
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="flex flex-col items-center space-y-2 text-muted cursor-pointer touch-target"
+              className="hero-scroll-content"
               onClick={scrollToServices}
             >
-              <span className="text-sm chakra-medium">Discover Our Services</span>
+              <span className="hero-scroll-text">Discover Our Services</span>
               <i className="bi bi-chevron-down text-light text-xl"></i>
             </motion.div>
           </motion.div>
