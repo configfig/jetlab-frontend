@@ -1,4 +1,4 @@
-// Hero.jsx
+// src/components/Hero.jsx
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';

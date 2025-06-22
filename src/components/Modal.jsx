@@ -1,4 +1,4 @@
-// Modal.jsx
+// src/components/Modal.jsx
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -54,9 +54,9 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
 
   const sizeClasses = {
     sm: 'max-w-md',
-    md: 'max-w-2xl',
-    lg: 'max-w-4xl',
-    xl: 'max-w-6xl'
+    md: 'max-w-lg md:max-w-2xl',
+    lg: 'max-w-xl md:max-w-3xl lg:max-w-4xl',
+    xl: 'max-w-2xl md:max-w-4xl lg:max-w-6xl'
   };
 
   if (!isOpen) {
@@ -71,34 +71,34 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="modal-overlay-fixed"
+          className="modal-overlay-mobile"
           onClick={handleBackdropClick}
         >
           {/* Modal Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            exit={{ opacity: 0, scale: 0.9, y: 50 }}
             transition={{ duration: 0.3 }}
-            className={`modal-content-wrapper ${sizeClasses[size]}`}
+            className={`modal-content-mobile ${sizeClasses[size]}`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="modal-header">
-              <h3 className="modal-title">
+            <div className="modal-header-mobile">
+              <h3 className="modal-title-mobile">
                 {title}
               </h3>
               <button
                 onClick={onClose}
-                className="modal-close-button"
+                className="modal-close-button-mobile"
                 aria-label="Close modal"
               >
-                <i className="bi bi-x"></i>
+                <i className="bi bi-x text-xl"></i>
               </button>
             </div>
             
             {/* Body */}
-            <div className="modal-body">
+            <div className="modal-body-mobile">
               {children}
             </div>
           </motion.div>

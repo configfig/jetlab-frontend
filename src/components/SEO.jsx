@@ -1,3 +1,5 @@
+// src/components/SEO.jsx
+
 import React, { useEffect } from 'react';
 
 const SEO = () => {

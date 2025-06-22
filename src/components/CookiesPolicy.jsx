@@ -1,3 +1,5 @@
+// src/components/CookiesPolicy.jsx
+
 import React from 'react';
 import { motion } from 'framer-motion';
 

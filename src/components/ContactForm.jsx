@@ -1,7 +1,7 @@
-// ContactForm.jsx
+// src/components/ContactForm.jsx
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { IMaskInput } from 'react-imask';
 import CustomSelect from './CustomSelect';
@@ -131,8 +131,8 @@ const ContactForm = () => {
           message: ''
         });
         
-        // Auto-hide success message after 5 seconds
-        setTimeout(() => setSubmitStatus(null), 5000);
+        // Auto-hide success message after 8 seconds
+        setTimeout(() => setSubmitStatus(null), 8000);
       } else {
         throw new Error(result.error || 'Failed to send message');
       }
@@ -141,8 +141,8 @@ const ContactForm = () => {
       console.error('Error sending form:', error);
       setSubmitStatus('error');
       
-      // Auto-hide error message after 5 seconds
-      setTimeout(() => setSubmitStatus(null), 5000);
+      // Auto-hide error message after 8 seconds
+      setTimeout(() => setSubmitStatus(null), 8000);
     } finally {
       setIsSubmitting(false);
     }
@@ -284,6 +284,68 @@ const ContactForm = () => {
                     </p>
                   </div>
 
+                  {/* Success/Error Status Banner */}
+                  <AnimatePresence>
+                    {submitStatus && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                        className={`p-6 rounded-2xl mb-8 border-2 ${
+                          submitStatus === 'success' 
+                            ? 'bg-green-900/20 border-green-500/50 backdrop-blur-sm' 
+                            : 'bg-red-900/20 border-red-500/50 backdrop-blur-sm'
+                        }`}
+                      >
+                        <div className="flex items-start space-x-4">
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            submitStatus === 'success' 
+                              ? 'bg-green-500/20 text-green-400' 
+                              : 'bg-red-500/20 text-red-400'
+                          }`}>
+                            <i className={`${
+                              submitStatus === 'success' 
+                                ? 'bi bi-check-circle-fill' 
+                                : 'bi bi-exclamation-triangle-fill'
+                            } text-xl`}></i>
+                          </div>
+                          <div className="flex-1">
+                            <h4 className={`chakra-semibold text-lg mb-2 ${
+                              submitStatus === 'success' ? 'text-green-300' : 'text-red-300'
+                            }`}>
+                              {submitStatus === 'success' ? 'Message Sent Successfully!' : 'Failed to Send Message'}
+                            </h4>
+                            <p className={`text-sm leading-relaxed ${
+                              submitStatus === 'success' ? 'text-green-200' : 'text-red-200'
+                            }`}>
+                              {submitStatus === 'success' 
+                                ? `Thank you ${formData.name || 'for your message'}! We've received your inquiry and will get back to you within 24 hours at ${formData.email || 'your email address'}. Our team is excited to discuss your project!` 
+                                : 'There was an issue sending your message. Please check your information and try again, or contact us directly at info@jetlabco.com'
+                              }
+                            </p>
+                            {submitStatus === 'success' && (
+                              <div className="mt-3 text-xs text-green-300">
+                                <i className="bi bi-info-circle mr-2"></i>
+                                Check your email for a confirmation and next steps.
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => setSubmitStatus(null)}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                              submitStatus === 'success' 
+                                ? 'hover:bg-green-500/20 text-green-400' 
+                                : 'hover:bg-red-500/20 text-red-400'
+                            }`}
+                          >
+                            <i className="bi bi-x text-lg"></i>
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Name and Email Row */}
                     <div className="grid md:grid-cols-2 gap-4">
@@ -378,15 +440,20 @@ const ContactForm = () => {
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || submitStatus === 'success'}
                       className={`w-full btn-primary flex items-center justify-center space-x-2 ${
-                        isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+                        isSubmitting || submitStatus === 'success' ? 'opacity-75 cursor-not-allowed' : ''
                       }`}
                     >
                       {isSubmitting ? (
                         <>
                           <div className="w-5 h-5 border-2 border-dark border-t-transparent rounded-full animate-spin"></div>
                           <span>Sending...</span>
+                        </>
+                      ) : submitStatus === 'success' ? (
+                        <>
+                          <i className="bi bi-check-circle text-lg"></i>
+                          <span>Message Sent!</span>
                         </>
                       ) : (
                         <>
@@ -400,49 +467,6 @@ const ContactForm = () => {
               </motion.div>
             </div>
           </div>
-
-          {/* Status Notification */}
-          {submitStatus && (
-            <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 50, scale: 0.9 }}
-              className="fixed bottom-8 right-8 z-50 max-w-md"
-            >
-              <div className={`p-4 rounded-lg shadow-dark border ${
-                submitStatus === 'success' 
-                  ? 'bg-green-900/90 border-green-500/50' 
-                  : 'bg-red-900/90 border-red-500/50'
-              }`}>
-                <div className="flex items-start space-x-3">
-                  <i className={`${
-                    submitStatus === 'success' 
-                      ? 'bi bi-check-circle text-green-400' 
-                      : 'bi bi-exclamation-triangle text-red-400'
-                  } text-xl mt-0.5`}></i>
-                  <div>
-                    <h4 className={`chakra-semibold ${
-                      submitStatus === 'success' ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {submitStatus === 'success' ? 'Message Sent!' : 'Send Failed'}
-                    </h4>
-                    <p className="text-sm text-muted mt-1">
-                      {submitStatus === 'success' 
-                        ? 'Thank you! We\'ll get back to you within 24 hours.' 
-                        : 'Please check your information and try again, or contact us directly at info@jetlabco.com'
-                      }
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setSubmitStatus(null)}
-                    className="text-muted hover:text-light ml-auto"
-                  >
-                    <i className="bi bi-x text-lg"></i>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </div>
       </section>
 

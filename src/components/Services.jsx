@@ -1,3 +1,5 @@
+// src/components/Services.jsx
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';

@@ -1,4 +1,4 @@
-// ContactForm.jsx
+// src/components/Header.jsx
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,6 +38,22 @@ const Header = () => {
     setIsMobileMenuOpen(false);
     setIsServicesDropdownOpen(false);
   }, [location.pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (sectionId) => {
     // If we're not on the home page, navigate to home first
@@ -237,11 +253,15 @@ const Header = () => {
 
           {/* Mobile Sidebar Button */}
           <button
-            className="md:hidden text-2xl text-light hover:text-light/80 transition-colors duration-300 touch-target outline-none focus:outline-none"
+            className="md:hidden text-2xl text-light hover:text-light/80 transition-colors duration-300 touch-target outline-none focus:outline-none z-50 relative"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
-            <i className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}></i>
+            <motion.i 
+              className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}
+              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+            ></motion.i>
           </button>
         </div>
 
@@ -255,7 +275,7 @@ const Header = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
                 onClick={() => setIsMobileMenuOpen(false)}
               />
               
@@ -265,29 +285,30 @@ const Header = () => {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-dark-700 border-l border-border z-50 md:hidden overflow-y-auto"
+                className="mobile-sidebar"
               >
-                <div className="p-6">
-                  {/* Sidebar Header */}
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
-                        <i className="bi bi-lightning-charge text-dark text-lg"></i>
-                      </div>
-                      <div>
-                        <h3 className="text-lg chakra-bold text-light">JetLab</h3>
-                        <p className="text-xs text-muted chakra-light">Digital Agency</p>
-                      </div>
+                {/* Fixed Header */}
+                <div className="mobile-sidebar-header">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
+                      <i className="bi bi-lightning-charge text-dark text-lg"></i>
                     </div>
-                    <button
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-10 h-10 rounded-lg bg-dark-600 hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center text-light touch-target outline-none focus:outline-none"
-                      aria-label="Close sidebar"
-                    >
-                      <i className="bi bi-x text-xl"></i>
-                    </button>
+                    <div>
+                      <h3 className="text-lg chakra-bold text-light">JetLab</h3>
+                      <p className="text-xs text-muted chakra-light">Digital Agency</p>
+                    </div>
                   </div>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-10 h-10 rounded-lg bg-dark-600 hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center text-light touch-target outline-none focus:outline-none"
+                    aria-label="Close sidebar"
+                  >
+                    <i className="bi bi-x text-xl"></i>
+                  </button>
+                </div>
 
+                {/* Scrollable Content */}
+                <div className="mobile-sidebar-content">
                   {/* Navigation Items */}
                   <div className="space-y-2">
                     {navItems.map((item) => (
@@ -295,44 +316,61 @@ const Header = () => {
                         {item.hasDropdown ? (
                           <div className="space-y-3">
                             {/* Services Header */}
-                            <div className="flex items-center space-x-3 p-4 rounded-lg bg-dark-600">
-                              <i className={`${item.icon} text-light text-lg`}></i>
-                              <span className="chakra-medium text-light">{item.label}</span>
+                            <div className="flex items-center space-x-3 p-4 rounded-xl bg-gradient-to-r from-dark-600 to-dark-500 border border-border/30">
+                              <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
+                                <i className={`${item.icon} text-dark text-lg`}></i>
+                              </div>
+                              <div>
+                                <span className="chakra-semibold text-light text-base">{item.label}</span>
+                                <p className="text-xs text-muted">Our digital solutions</p>
+                              </div>
                             </div>
                             
                             {/* Services Submenu */}
-                            <div className="ml-4 space-y-2">
+                            <div className="space-y-2 pl-2">
                               {serviceItems.map((service, idx) => (
-                                <button
+                                <motion.button
                                   key={idx}
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: idx * 0.1 }}
                                   onClick={() => navigateToPage(service.path)}
-                                  className="w-full flex items-center space-x-3 p-3 rounded-lg text-left text-light/80 hover:text-light hover:bg-dark-600 transition-all duration-300 touch-target outline-none focus:outline-none"
+                                  className="w-full group"
                                 >
-                                  <i className={`${service.icon} text-lg`}></i>
-                                  <div className="flex-1">
-                                    <span className="block chakra-medium">{service.label}</span>
-                                    <span className="text-xs text-muted">{service.description}</span>
+                                  <div className="flex items-center space-x-4 p-4 rounded-xl bg-dark-600/50 hover:bg-dark-500 transition-all duration-300 border border-transparent hover:border-border">
+                                    <div className="w-12 h-12 bg-dark-500 rounded-lg flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-all duration-300">
+                                      <i className={`${service.icon} text-lg text-light group-hover:text-dark`}></i>
+                                    </div>
+                                    <div className="flex-1 text-left">
+                                      <h4 className="chakra-semibold text-light group-hover:text-light text-sm">{service.label}</h4>
+                                      <p className="text-xs text-muted group-hover:text-light/80 leading-relaxed">{service.description}</p>
+                                    </div>
+                                    <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
                                   </div>
-                                  <i className="bi bi-arrow-right text-muted"></i>
-                                </button>
+                                </motion.button>
                               ))}
                               
                               {/* View All Services */}
                               <button
                                 onClick={() => scrollToSection('services')}
-                                className="w-full p-3 mt-2 text-center bg-light/10 hover:bg-light/20 rounded-lg transition-all duration-300 touch-target outline-none focus:outline-none"
+                                className="w-full p-4 mt-3 text-center bg-gradient-to-r from-light/10 to-light/20 hover:from-light/20 hover:to-light/30 rounded-xl transition-all duration-300 border border-light/20 hover:border-light/40 touch-target outline-none focus:outline-none"
                               >
-                                <span className="chakra-medium text-light">View All Services</span>
+                                <span className="chakra-semibold text-light">View All Services</span>
                               </button>
                             </div>
                           </div>
                         ) : (
                           <button
                             onClick={item.action}
-                            className="w-full flex items-center space-x-3 p-4 rounded-lg text-left text-light hover:text-light/80 hover:bg-dark-600 transition-all duration-300 touch-target outline-none focus:outline-none"
+                            className="w-full group"
                           >
-                            <i className={`${item.icon} text-lg`}></i>
-                            <span className="chakra-medium">{item.label}</span>
+                            <div className="flex items-center space-x-4 p-4 rounded-xl bg-dark-600/30 hover:bg-dark-500 transition-all duration-300 border border-transparent hover:border-border">
+                              <div className="w-12 h-12 bg-dark-500 rounded-lg flex items-center justify-center group-hover:bg-light group-hover:text-dark transition-all duration-300">
+                                <i className={`${item.icon} text-lg text-light group-hover:text-dark`}></i>
+                              </div>
+                              <span className="chakra-semibold text-light group-hover:text-light flex-1 text-left">{item.label}</span>
+                              <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
+                            </div>
                           </button>
                         )}
                       </div>
@@ -343,22 +381,26 @@ const Header = () => {
                   <div className="mt-8">
                     <button
                       onClick={() => scrollToSection('contact')}
-                      className="w-full btn-primary touch-target outline-none focus:outline-none"
+                      className="w-full btn-primary text-center py-4 text-lg chakra-semibold touch-target outline-none focus:outline-none"
                     >
                       Get Started
                     </button>
                   </div>
 
                   {/* Contact Info */}
-                  <div className="mt-8 p-4 bg-dark-600 rounded-lg">
-                    <h4 className="chakra-semibold text-light mb-3">Contact Info</h4>
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <i className="bi bi-geo-alt text-light/60"></i>
-                        <span className="text-sm text-muted">Chicago, IL</span>
+                  <div className="mt-8 p-6 bg-gradient-to-br from-dark-600 to-dark-700 rounded-2xl border border-border/30">
+                    <h4 className="chakra-semibold text-light mb-4 text-center">Contact Info</h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                          <i className="bi bi-geo-alt text-light/80"></i>
+                        </div>
+                        <span className="text-sm text-muted">Chicago, Illinois, USA</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <i className="bi bi-envelope text-light/60"></i>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                          <i className="bi bi-envelope text-light/80"></i>
+                        </div>
                         <a 
                           href="mailto:info@jetlabco.com" 
                           className="text-sm text-muted hover:text-light transition-colors outline-none focus:outline-none"
@@ -366,8 +408,41 @@ const Header = () => {
                           info@jetlabco.com
                         </a>
                       </div>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                          <i className="bi bi-clock text-light/80"></i>
+                        </div>
+                        <span className="text-sm text-muted">Mon - Fri: 9AM - 6PM</span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Social Links */}
+                  <div className="mt-6 text-center">
+                    <h5 className="chakra-medium text-light mb-4">Follow Us</h5>
+                    <div className="flex justify-center space-x-4">
+                      {[
+                        { icon: 'bi-linkedin', href: '#', label: 'LinkedIn' },
+                        { icon: 'bi-twitter', href: '#', label: 'Twitter' },
+                        { icon: 'bi-facebook', href: '#', label: 'Facebook' },
+                        { icon: 'bi-instagram', href: '#', label: 'Instagram' }
+                      ].map((social, index) => (
+                        <a
+                          key={index}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-dark-600 rounded-lg flex items-center justify-center hover:bg-light hover:text-dark transition-all duration-300 text-light"
+                          aria-label={social.label}
+                        >
+                          <i className={`${social.icon} text-sm`}></i>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Padding for scroll */}
+                  <div className="h-8"></div>
                 </div>
               </motion.div>
             </>

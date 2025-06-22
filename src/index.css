@@ -12,6 +12,7 @@
   html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden;
   }
   
   body {
@@ -22,6 +23,7 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    overflow-x: hidden;
   }
 
   /* Remove focus outlines for mouse users */
@@ -217,12 +219,6 @@
   }
 }
 
-/* Modal Backdrop */
-.modal-backdrop {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-}
-
 /* Mobile-specific improvements */
 @media (max-width: 768px) {
   /* Better touch targets on mobile */
@@ -238,13 +234,33 @@
 
   /* Better modal sizing on mobile */
   .modal-content {
-    margin: 16px;
-    max-height: calc(100vh - 32px);
+    margin: 12px;
+    max-height: calc(100vh - 24px);
   }
 
   /* Optimized animations for mobile */
   .mobile-fade {
     animation: fadeIn 0.3s ease-out;
+  }
+
+  /* Reduce complex effects on mobile */
+  .glass-dark, .glass-light {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Better text sizing for mobile */
+  .text-4xl {
+    font-size: 2.25rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 3rem !important;
+  }
+
+  /* Optimize card hover effects for mobile */
+  .card:hover {
+    transform: none;
   }
 
   /* Hide complex animations on slower devices */
@@ -293,6 +309,11 @@
   .mobile-optimized {
     transform: none !important;
   }
+
+  .backdrop-blur, .glass-effect, .glass-dark, .glass-light {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 /* Print styles */
@@ -322,6 +343,18 @@
   button {
     -webkit-appearance: none;
   }
+
+  /* Fix viewport height issues on iOS */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  /* Fix for iOS modal height */
+  .modal-overlay-mobile {
+    height: 100vh !important;
+    height: -webkit-fill-available !important;
+  }
 }
 
 /* Performance optimizations for older devices */
@@ -337,13 +370,108 @@
     transform: none;
   }
   
-  /* Better text sizing */
-  .text-4xl {
-    font-size: 2rem !important;
+  /* Disable will-change on mobile to save memory */
+  .gpu-accelerated, .smooth-transition {
+    will-change: auto;
   }
-  
-  .text-6xl {
-    font-size: 3rem !important;
+
+  /* Better typography for small screens */
+  .responsive-heading {
+    font-size: clamp(1.75rem, 6vw, 3rem);
+  }
+
+  .responsive-text {
+    font-size: clamp(0.875rem, 3vw, 1.125rem);
   }
 }
 
+/* Enhanced hover states for desktop */
+@media (min-width: 1024px) {
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Critical loading optimizations */
+.critical-resource {
+  font-display: swap;
+}
+
+/* Lazy loading optimization */
+.lazy-load {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+}
+
+/* Modal Backdrop - Legacy support */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-muted {
+    color: #cccccc !important;
+  }
+  
+  .border-border {
+    border-color: #666666 !important;
+  }
+
+  .glass-dark, .glass-light {
+    background: rgba(0, 0, 0, 0.9) !important;
+    border: 2px solid #ffffff !important;
+  }
+}
+
+/* Focus management for modals and overlays */
+.modal-open {
+  overflow: hidden !important;
+}
+
+/* Better scrolling on mobile devices */
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Smooth scrolling for mobile sidebar */
+  .mobile-sidebar-content {
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Responsive font scaling */
+@media (max-width: 320px) {
+  /* Extra small devices */
+  .responsive-heading {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .responsive-text {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+  }
+}
+
+/* Optimize for foldable devices */
+@media (max-width: 280px) {
+  .container-custom {
+    padding: 0 12px;
+  }
+
+  .section-padding {
+    padding: 3rem 12px;
+  }
+}
