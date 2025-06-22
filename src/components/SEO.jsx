@@ -86,8 +86,8 @@ const SEO = () => {
     updateOrCreateMeta('twitter:title', title);
     updateOrCreateMeta('twitter:description', description);
 
-    // Update canonical URL
-    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    // Update canonical URL - ИСПРАВЛЕНО: заменили let на const
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink) {
       canonicalLink.setAttribute('href', `https://jetlabco.com${location.pathname}`);
     } else {
