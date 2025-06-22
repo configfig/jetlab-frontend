@@ -1,8 +1,11 @@
+// Hero.jsx
+
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import TrustPilot from './TrustPilot';
 import Modal from './Modal';
+import QuizModal from './QuizModal';
 
 const Hero = () => {
   const [text, setText] = useState('');
@@ -320,43 +323,12 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* Project Modal */}
-      <Modal
+      {/* Project QuizModal - Now opens quiz instead of info modal */}
+      <QuizModal
         isOpen={showProjectModal}
         onClose={() => setShowProjectModal(false)}
-        title="Start Your Project"
-        size="md"
-      >
-        <div className="space-y-6">
-          <p className="text-muted chakra-light">
-            Ready to transform your digital presence? Let's discuss your project requirements and create something amazing together.
-          </p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon: 'bi-lightning', title: 'Fast Start', desc: 'Project kickoff within 48 hours' },
-              { icon: 'bi-shield-check', title: 'Quality Guarantee', desc: '100% satisfaction or money back' },
-              { icon: 'bi-clock', title: 'On-Time Delivery', desc: 'Strict adherence to deadlines' },
-              { icon: 'bi-headset', title: '24/7 Support', desc: 'Round-the-clock assistance' }
-            ].map((feature, index) => (
-              <div key={index} className="p-4 bg-dark-600 rounded-lg">
-                <i className={`${feature.icon} text-light text-xl mb-2`}></i>
-                <h4 className="chakra-semibold text-light mb-1">{feature.title}</h4>
-                <p className="text-sm text-muted">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button onClick={scrollToContact} className="btn-primary flex-1 touch-target">
-              Get Free Consultation
-            </button>
-            <button onClick={() => setShowProjectModal(false)} className="btn-ghost touch-target">
-              Learn More
-            </button>
-          </div>
-        </div>
-      </Modal>
+        service="Complete Digital Solution"
+      />
 
       {/* Services Modal - Improved for mobile */}
       <Modal

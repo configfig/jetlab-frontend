@@ -1,4 +1,4 @@
-// services/emailService.js - ИСПРАВЛЕННАЯ версия
+// services/emailService.js
 
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://jetlabco.com'      // Для продакшена
