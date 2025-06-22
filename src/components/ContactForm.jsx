@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { IMaskInput } from 'react-imask';
 import CustomSelect from './CustomSelect';
 import QuizModal from './QuizModal';
-import { sendContactForm, validateEmail, validatePhone } from '../services/emailService';
+import { sendContactForm, validateEmail, validatePhone } from '../../services/emailService';
 
 const ContactForm = () => {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
