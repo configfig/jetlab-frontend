@@ -219,12 +219,303 @@
   }
 }
 
+/* =============================================================================
+   HERO SECTION STYLES - Fixed for mobile
+   ============================================================================= */
+
+/* Hero Section Container - Fixed mobile spacing */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #000000;
+  overflow: hidden;
+  padding-top: 60px; /* Reduced from 80px for mobile */
+  padding-bottom: 20px; /* Reduced from 40px */
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+}
+
+/* Hero Content Container */
+.hero-content {
+  width: 100%;
+  min-height: calc(100vh - 80px); /* Reduced from 120px */
+  min-height: calc(100dvh - 80px);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .hero-content {
+    min-height: calc(100vh - 160px);
+    min-height: calc(100dvh - 160px);
+  }
+}
+
+/* Hero Typography - Increased mobile sizes */
+.hero-main-title {
+  font-size: 3.25rem; /* Increased from 2.75rem */
+  line-height: 1.1;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Chakra Petch', sans-serif;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .hero-main-title {
+    font-size: 4rem; /* Increased from 3.75rem */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-main-title {
+    font-size: 4.5rem;
+  }
+}
+
+/* Typewriter Container */
+.hero-typewriter-container {
+  height: 4rem; /* Increased from 3.5rem */
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .hero-typewriter-container {
+    height: 5rem; /* Increased from 4.5rem */
+    margin-bottom: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-typewriter-container {
+    height: 5.5rem;
+  }
+}
+
+/* Typewriter Text - Increased mobile sizes */
+.hero-typewriter-text {
+  font-size: 2.5rem; /* Increased from 2rem */
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Chakra Petch', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1.1;
+}
+
+@media (min-width: 640px) {
+  .hero-typewriter-text {
+    font-size: 3.25rem; /* Increased from 3rem */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-typewriter-text {
+    font-size: 3.75rem;
+  }
+}
+
+/* Hero Description - Increased mobile size */
+.hero-description {
+  font-size: 1.125rem; /* Increased from 1rem */
+  line-height: 1.6;
+  color: #888888;
+  font-weight: 300;
+  font-family: 'Chakra Petch', sans-serif;
+  max-width: 100%;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .hero-description {
+    font-size: 1.25rem; /* Increased from 1.125rem */
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-description {
+    font-size: 1.375rem; /* Increased from 1.25rem */
+    max-width: 85%;
+  }
+}
+
+/* Hero Features Grid */
+.hero-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; /* Increased from 0.75rem */
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-features-grid {
+    gap: 1.25rem; /* Increased from 1rem */
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Hero Feature Item */
+.hero-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Increased from 0.75rem */
+}
+
+@media (min-width: 1024px) {
+  .hero-feature-item {
+    gap: 1.25rem; /* Increased from 1rem */
+  }
+}
+
+/* Hero Feature Icon */
+.hero-feature-icon {
+  width: 3rem; /* Increased from 2.5rem */
+  height: 3rem; /* Increased from 2.5rem */
+  background-color: #2a2a2a;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .hero-feature-icon {
+    width: 3.5rem; /* Increased from 3rem */
+    height: 3.5rem; /* Increased from 3rem */
+  }
+}
+
+/* Hero Feature Text - Increased mobile size */
+.hero-feature-text {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 1rem; /* Increased from 0.875rem */
+  line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+  .hero-feature-text {
+    font-size: 1.125rem; /* Increased from 1rem */
+  }
+}
+
+/* Hero CTA Buttons */
+.hero-cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .hero-cta-buttons {
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Hero Buttons - Increased mobile size */
+.hero-btn-primary,
+.hero-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 2rem; /* Increased from 1rem 1.5rem */
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-family: 'Chakra Petch', sans-serif;
+  transition: all 0.3s ease;
+  min-height: 52px; /* Increased from 48px */
+  font-size: 1.125rem; /* Increased from 1rem */
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: auto;
+    flex: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    padding: 1.25rem 2rem;
+    font-size: 1.125rem;
+    flex: none;
+  }
+}
+
+/* Hero Scroll Indicator - Fixed positioning */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem; /* Increased from 1rem */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .hero-scroll-indicator {
+    bottom: 2.5rem; /* Increased from 2rem */
+  }
+}
+
+/* Hero Scroll Content - Better touch target */
+.hero-scroll-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem; /* Increased from 0.5rem */
+  color: #888888;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  min-height: 56px; /* Increased from 44px for better touch target */
+  padding: 0.75rem; /* Increased from 0.5rem */
+}
+
+.hero-scroll-content:hover {
+  color: #ffffff;
+}
+
+/* Hero Scroll Text - Increased mobile size */
+.hero-scroll-text {
+  font-size: 1rem; /* Increased from 0.875rem */
+  font-weight: 500;
+  font-family: 'Chakra Petch', sans-serif;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-scroll-text {
+    font-size: 1.125rem; /* Increased from 1rem */
+  }
+}
+
 /* Mobile-specific improvements */
 @media (max-width: 768px) {
   /* Better touch targets on mobile */
   button, a, [role="button"] {
-    min-height: 44px;
-    padding: 12px 16px;
+    min-height: 48px; /* Increased from 44px */
+    padding: 14px 20px; /* Increased from 12px 16px */
   }
 
   /* Prevent zoom on input focus */
@@ -251,11 +542,11 @@
 
   /* Better text sizing for mobile */
   .text-4xl {
-    font-size: 2.25rem !important;
+    font-size: 2.5rem !important; /* Increased from 2.25rem */
   }
   
   .text-6xl {
-    font-size: 3rem !important;
+    font-size: 3.5rem !important; /* Increased from 3rem */
   }
 
   /* Optimize card hover effects for mobile */
@@ -349,12 +640,6 @@
     min-height: 100vh;
     min-height: -webkit-fill-available;
   }
-
-  /* Fix for iOS modal height */
-  .modal-overlay-mobile {
-    height: 100vh !important;
-    height: -webkit-fill-available !important;
-  }
 }
 
 /* Performance optimizations for older devices */
@@ -377,11 +662,11 @@
 
   /* Better typography for small screens */
   .responsive-heading {
-    font-size: clamp(1.75rem, 6vw, 3rem);
+    font-size: clamp(2rem, 6vw, 3.5rem); /* Increased minimum */
   }
 
   .responsive-text {
-    font-size: clamp(0.875rem, 3vw, 1.125rem);
+    font-size: clamp(1rem, 3vw, 1.25rem); /* Increased minimum */
   }
 }
 
@@ -413,12 +698,6 @@
   opacity: 1;
 }
 
-/* Modal Backdrop - Legacy support */
-.modal-backdrop {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-}
-
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .text-muted {
@@ -435,303 +714,6 @@
   }
 }
 
-/* Focus management for modals and overlays */
-.modal-open {
-  overflow: hidden !important;
-}
-
-/* =============================================================================
-   HERO SECTION STYLES - Optimized for mobile
-   ============================================================================= */
-
-/* Hero Section Container */
-.hero-section {
-  position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: #000000;
-  overflow: hidden;
-  padding-top: 80px; /* Reduced for mobile */
-  padding-bottom: 40px;
-  display: flex;
-  align-items: center;
-}
-
-@media (min-width: 768px) {
-  .hero-section {
-    padding-top: 100px;
-    padding-bottom: 60px;
-  }
-}
-
-/* Hero Content Container */
-.hero-content {
-  width: 100%;
-  min-height: calc(100vh - 120px);
-  min-height: calc(100dvh - 120px);
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-@media (min-width: 768px) {
-  .hero-content {
-    min-height: calc(100vh - 160px);
-    min-height: calc(100dvh - 160px);
-  }
-}
-
-/* Hero Typography */
-.hero-main-title {
-  font-size: 2.75rem;
-  line-height: 1.1;
-  font-weight: 700;
-  color: #ffffff;
-  font-family: 'Chakra Petch', sans-serif;
-  margin-bottom: 1rem;
-}
-
-@media (min-width: 640px) {
-  .hero-main-title {
-    font-size: 3.75rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-main-title {
-    font-size: 4.5rem;
-  }
-}
-
-/* Typewriter Container */
-.hero-typewriter-container {
-  height: 3.5rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .hero-typewriter-container {
-    height: 4.5rem;
-    margin-bottom: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-typewriter-container {
-    height: 5.5rem;
-  }
-}
-
-/* Typewriter Text */
-.hero-typewriter-text {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ffffff;
-  font-family: 'Chakra Petch', sans-serif;
-  white-space: nowrap;
-  overflow: hidden;
-  line-height: 1.1;
-}
-
-@media (min-width: 640px) {
-  .hero-typewriter-text {
-    font-size: 3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-typewriter-text {
-    font-size: 3.75rem;
-  }
-}
-
-/* Hero Description */
-.hero-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #888888;
-  font-weight: 300;
-  font-family: 'Chakra Petch', sans-serif;
-  max-width: 100%;
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 640px) {
-  .hero-description {
-    font-size: 1.125rem;
-    max-width: 90%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-description {
-    font-size: 1.25rem;
-    max-width: 85%;
-  }
-}
-
-/* Hero Features Grid */
-.hero-features-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 1024px) {
-  .hero-features-grid {
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-}
-
-/* Hero Feature Item */
-.hero-feature-item {
-  display: flex;
-  align-items: center;
-  space-x: 0.75rem;
-  gap: 0.75rem;
-}
-
-@media (min-width: 1024px) {
-  .hero-feature-item {
-    gap: 1rem;
-  }
-}
-
-/* Hero Feature Icon */
-.hero-feature-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: #2a2a2a;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-@media (min-width: 1024px) {
-  .hero-feature-icon {
-    width: 3rem;
-    height: 3rem;
-  }
-}
-
-/* Hero Feature Text */
-.hero-feature-text {
-  font-family: 'Chakra Petch', sans-serif;
-  font-weight: 500;
-  color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.2;
-}
-
-@media (min-width: 1024px) {
-  .hero-feature-text {
-    font-size: 1rem;
-  }
-}
-
-/* Hero CTA Buttons */
-.hero-cta-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .hero-cta-buttons {
-    flex-direction: row;
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-}
-
-/* Hero Buttons */
-.hero-btn-primary,
-.hero-btn-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-family: 'Chakra Petch', sans-serif;
-  transition: all 0.3s ease;
-  min-height: 48px;
-  font-size: 1rem;
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .hero-btn-primary,
-  .hero-btn-secondary {
-    width: auto;
-    flex: 1;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-btn-primary,
-  .hero-btn-secondary {
-    padding: 1.25rem 2rem;
-    font-size: 1.125rem;
-    flex: none;
-  }
-}
-
-/* Hero Scroll Indicator */
-.hero-scroll-indicator {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-@media (min-width: 1024px) {
-  .hero-scroll-indicator {
-    bottom: 2rem;
-  }
-}
-
-/* Hero Scroll Content */
-.hero-scroll-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  color: #888888;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  min-height: 44px;
-  padding: 0.5rem;
-}
-
-.hero-scroll-content:hover {
-  color: #ffffff;
-}
-
-/* Hero Scroll Text */
-.hero-scroll-text {
-  font-size: 0.875rem;
-  font-weight: 500;
-  font-family: 'Chakra Petch', sans-serif;
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .hero-scroll-text {
-    font-size: 1rem;
-  }
-}
-
 /* App loading state */
 body.app-loaded .fade-in-up {
   animation: fadeIn 0.6s ease-out;
@@ -742,33 +724,15 @@ body.app-loaded .fade-in-up {
   scroll-behavior: smooth;
 }
 
-/* Improved touch targets */
-@media (max-width: 768px) {
-  button, a, [role="button"], input, select, textarea {
-    min-height: 44px;
-  }
-  
-  /* Optimize form elements for mobile */
-  .input-field {
-    font-size: 16px; /* Prevent zoom on iOS */
-    padding: 16px;
-  }
-  
-  .btn-primary, .btn-secondary {
-    padding: 16px 24px;
-    font-size: 16px;
-  }
-}
-
 /* Responsive font scaling */
 @media (max-width: 320px) {
   /* Extra small devices */
   .responsive-heading {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.75rem, 5vw, 2.75rem); /* Increased minimum */
   }
 
   .responsive-text {
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.125rem); /* Increased minimum */
   }
 }
 
