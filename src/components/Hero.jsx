@@ -84,7 +84,7 @@ const Hero = () => {
 
   return (
     <>
-      <section id="hero" ref={ref} className="hero-section-fixed">
+      <section id="hero" ref={ref} className="hero-section">
         {/* Independent Floating Elements Background */}
         <div className="absolute inset-0 pointer-events-none">
           {floatingElements.map((element) => (
@@ -111,7 +111,7 @@ const Hero = () => {
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 container-mobile hero-content-fixed">
+        <div className="relative z-10 container-custom hero-content">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
             
             {/* Left Column - Text Content */}
@@ -129,13 +129,13 @@ const Hero = () => {
                 className="space-y-4 lg:space-y-6"
               >
                 <div className="space-y-2 lg:space-y-4">
-                  <h1 className="hero-main-title-fixed">
+                  <h1 className="hero-main-title">
                     We Create:
                   </h1>
                   {/* Fixed width container for typewriter to prevent layout shifts */}
-                  <div className="hero-typewriter-container-fixed">
+                  <div className="hero-typewriter-container">
                     <div className="w-full min-w-0"> {/* Prevent overflow */}
-                      <span className="hero-typewriter-text-fixed">
+                      <span className="hero-typewriter-text">
                         {text}
                         <motion.span
                           animate={{ opacity: [1, 0, 1] }}
@@ -149,7 +149,7 @@ const Hero = () => {
                   </div>
                 </div>
                 
-                <p className="hero-description-fixed">
+                <p className="hero-description">
                   Transform your business with cutting-edge digital solutions. We're a premier digital agency specializing in web development, AI integration, marketing automation, and SEO optimization.
                 </p>
               </motion.div>
@@ -159,7 +159,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="hero-features-grid-fixed"
+                className="hero-features-grid"
               >
                 {[
                   { icon: 'bi-code-slash', text: 'Expert Development' },
@@ -167,11 +167,11 @@ const Hero = () => {
                   { icon: 'bi-robot', text: 'AI Integration' },
                   { icon: 'bi-search', text: 'SEO Mastery' }
                 ].map((feature, index) => (
-                  <div key={index} className="hero-feature-item-fixed">
-                    <div className="hero-feature-icon-fixed">
+                  <div key={index} className="hero-feature-item">
+                    <div className="hero-feature-icon">
                       <i className={`${feature.icon} text-light text-lg lg:text-xl`}></i>
                     </div>
-                    <span className="hero-feature-text-fixed">{feature.text}</span>
+                    <span className="hero-feature-text">{feature.text}</span>
                   </div>
                 ))}
               </motion.div>
@@ -181,11 +181,11 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.3 }}
-                className="hero-cta-buttons-fixed"
+                className="hero-cta-buttons"
               >
                 <button
                   onClick={() => setShowProjectModal(true)}
-                  className="btn-primary hero-btn-primary-fixed"
+                  className="btn-primary hero-btn-primary"
                 >
                   <span>Start Your Project</span>
                   <i className="bi bi-arrow-right"></i>
@@ -193,7 +193,7 @@ const Hero = () => {
                 
                 <button
                   onClick={() => setShowServicesModal(true)}
-                  className="btn-secondary hero-btn-secondary-fixed"
+                  className="btn-secondary hero-btn-secondary"
                 >
                   <span>View Services</span>
                   <i className="bi bi-play-circle"></i>
@@ -303,20 +303,20 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Scroll Indicator - Fixed positioning and improved mobile */}
+          {/* Scroll Indicator - Better positioned */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.4, delay: 1 }}
-            className="hero-scroll-indicator-fixed"
+            className="hero-scroll-indicator"
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="hero-scroll-content-fixed"
+              className="hero-scroll-content"
               onClick={scrollToServices}
             >
-              <span className="hero-scroll-text-fixed">Discover Our Services</span>
+              <span className="hero-scroll-text">Discover Our Services</span>
               <i className="bi bi-chevron-down text-light text-xl"></i>
             </motion.div>
           </motion.div>
@@ -337,7 +337,7 @@ const Hero = () => {
         title="Our Services"
         size="lg"
       >
-        <div className="space-y-6">
+        <div className="space-y-6 max-h-[60vh] overflow-y-auto scrollbar-thin">
           <div className="grid gap-6">
             {[
               {
@@ -390,10 +390,10 @@ const Hero = () => {
         </div>
         
         <div className="mt-6 flex flex-col sm:flex-row gap-4 pt-4 border-t border-border">
-          <button onClick={scrollToServices} className="btn-primary flex-1">
+          <button onClick={scrollToServices} className="btn-primary flex-1 touch-target">
             View All Services
           </button>
-          <button onClick={scrollToContact} className="btn-secondary flex-1">
+          <button onClick={scrollToContact} className="btn-secondary flex-1 touch-target">
             Get Quote
           </button>
         </div>
