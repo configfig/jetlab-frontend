@@ -1,4 +1,4 @@
-// src/components/Header.jsx - ИСПРАВЛЕНО
+// src/components/Header.jsx
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,7 +18,9 @@ const Header = () => {
       setIsScrolled(window.scrollY > 50);
     };
     
+    // Set initial state
     setIsScrolled(window.scrollY > 50);
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -41,34 +43,58 @@ const Header = () => {
     setIsServicesDropdownOpen(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
+  // Prevent body scroll when mobile menu is open - УЛУЧШЕННАЯ ВЕРСИЯ
   useEffect(() => {
     if (isMobileMenuOpen) {
+      // Сохраняем текущую позицию скролла
       const scrollY = window.scrollY;
+      
+      // Фиксируем body
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      
+      // Добавляем класс для дополнительных стилей
+      document.body.classList.add('modal-open');
+      document.documentElement.classList.add('modal-open');
     } else {
+      // Восстанавливаем скролл
       const scrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      
+      // Убираем классы
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
+      
+      // Восстанавливаем позицию скролла
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
     }
 
     return () => {
+      // Cleanup при размонтировании
       document.body.style.position = '';
       document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
     };
   }, [isMobileMenuOpen]);
 
   const scrollToSection = (sectionId) => {
+    // If we're not on the home page, navigate to home first
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => {
@@ -135,116 +161,54 @@ const Header = () => {
 
   return (
     <>
-      {/* Header - ПРАВИЛЬНО ЗАКРЕПЛЕННЫЙ */}
-      <header
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          width: '100%',
-          transition: 'all 0.3s ease',
-          backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.95)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-          borderBottom: isScrolled ? '1px solid #333333' : 'none'
-        }}
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`header-fixed ${
+          isScrolled 
+            ? 'header-scrolled' 
+            : 'header-transparent'
+        }`}
       >
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '0 2rem'
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: '80px'
-          }}>
+        <div className="container-mobile">
+          <div className="flex items-center justify-between py-4">
             {/* Logo */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                cursor: 'pointer',
-                zIndex: 1001
-              }}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center space-x-3 cursor-pointer z-50 relative"
               onClick={() => navigateToPage('/')}
             >
-              <div style={{
-                width: '48px',
-                height: '48px',
-                backgroundColor: '#ffffff',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <i className="bi bi-lightning-charge" style={{ color: '#000000', fontSize: '24px' }}></i>
+              <div className="w-12 h-12 bg-light rounded-xl flex items-center justify-center">
+                <i className="bi bi-lightning-charge text-dark text-xl"></i>
               </div>
               <div>
-                <h1 style={{
-                  fontSize: '24px',
-                  fontWeight: '700',
-                  color: '#ffffff',
-                  fontFamily: '"Chakra Petch", sans-serif',
-                  margin: 0,
-                  lineHeight: '1.2'
-                }}>JetLab</h1>
-                <p style={{
-                  fontSize: '12px',
-                  color: '#888888',
-                  fontFamily: '"Chakra Petch", sans-serif',
-                  margin: 0
-                }}>Digital Agency</p>
+                <h1 className="text-xl lg:text-2xl chakra-bold text-light">JetLab</h1>
+                <p className="text-xs text-muted chakra-light">Digital Agency</p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Desktop Navigation */}
-            <nav style={{
-              display: 'none',
-              alignItems: 'center',
-              gap: '2rem'
-            }} className="md:flex">
-              {navItems.map((item) => (
-                <div key={item.id} style={{ position: 'relative' }} ref={item.hasDropdown ? dropdownRef : null}>
+            <nav className="hidden md:flex items-center space-x-8">
+              {navItems.map((item, index) => (
+                <div key={item.id} className="relative" ref={item.hasDropdown ? dropdownRef : null}>
                   {item.hasDropdown ? (
-                    <div style={{ position: 'relative' }}>
-                      <button
+                    // Services Dropdown
+                    <div className="relative">
+                      <motion.button
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
                         onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          color: '#ffffff',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '0.75rem 1rem',
-                          borderRadius: '0.5rem',
-                          transition: 'all 0.3s ease',
-                          fontFamily: '"Chakra Petch", sans-serif',
-                          fontWeight: '500'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = 'transparent';
-                        }}
+                        className="nav-button"
                       >
-                        <i className={`${item.icon}`} style={{ fontSize: '18px' }}></i>
+                        <i className={`${item.icon} text-lg`}></i>
                         <span>{item.label}</span>
-                        <i 
-                          className="bi bi-chevron-down" 
-                          style={{ 
-                            fontSize: '14px',
-                            transform: isServicesDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                            transition: 'transform 0.2s ease'
-                          }}
-                        ></i>
-                      </button>
+                        <motion.i 
+                          className="bi bi-chevron-down text-sm"
+                          animate={{ rotate: isServicesDropdownOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        ></motion.i>
+                      </motion.button>
 
                       {/* Dropdown Menu */}
                       <AnimatePresence>
@@ -254,109 +218,43 @@ const Header = () => {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            style={{
-                              position: 'absolute',
-                              top: '100%',
-                              right: 0,
-                              marginTop: '0.5rem',
-                              width: '20rem',
-                              backgroundColor: '#1a1a1a',
-                              border: '1px solid #333333',
-                              borderRadius: '12px',
-                              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
-                              overflow: 'hidden',
-                              zIndex: 1100
-                            }}
+                            className="dropdown-menu"
                           >
-                            <div style={{ padding: '1rem' }}>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <div className="p-4">
+                              <div className="space-y-2">
                                 {serviceItems.map((service, idx) => (
-                                  <button
+                                  <motion.button
                                     key={idx}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.05 }}
                                     onClick={() => navigateToPage(service.path)}
-                                    style={{
-                                      width: '100%',
-                                      padding: '1rem',
-                                      borderRadius: '12px',
-                                      background: 'none',
-                                      border: 'none',
-                                      textAlign: 'left',
-                                      cursor: 'pointer',
-                                      transition: 'all 0.3s ease',
-                                      color: '#ffffff'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      e.target.style.backgroundColor = 'transparent';
-                                    }}
+                                    className="dropdown-item"
                                   >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                      <div style={{
-                                        width: '48px',
-                                        height: '48px',
-                                        backgroundColor: '#2a2a2a',
-                                        borderRadius: '8px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                      }}>
-                                        <i className={`${service.icon}`} style={{ fontSize: '18px' }}></i>
+                                    <div className="flex items-center space-x-4">
+                                      <div className="dropdown-item-icon">
+                                        <i className={`${service.icon} text-lg`}></i>
                                       </div>
-                                      <div style={{ flex: 1 }}>
-                                        <h4 style={{
-                                          fontWeight: '600',
-                                          color: '#ffffff',
-                                          margin: 0,
-                                          marginBottom: '0.25rem',
-                                          fontFamily: '"Chakra Petch", sans-serif'
-                                        }}>
+                                      <div className="flex-1">
+                                        <h4 className="chakra-semibold text-light group-hover:text-light/90">
                                           {service.label}
                                         </h4>
-                                        <p style={{
-                                          fontSize: '14px',
-                                          color: '#888888',
-                                          margin: 0,
-                                          fontFamily: '"Chakra Petch", sans-serif'
-                                        }}>
+                                        <p className="text-sm text-muted group-hover:text-light/70">
                                           {service.description}
                                         </p>
                                       </div>
-                                      <i className="bi bi-arrow-right" style={{ fontSize: '14px', color: '#888888' }}></i>
+                                      <i className="bi bi-arrow-right text-muted group-hover:text-light/70 transition-all duration-300"></i>
                                     </div>
-                                  </button>
+                                  </motion.button>
                                 ))}
                               </div>
                               
-                              <div style={{
-                                marginTop: '1rem',
-                                paddingTop: '1rem',
-                                borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-                              }}>
+                              <div className="mt-4 pt-4 border-t border-border/50">
                                 <button
                                   onClick={() => scrollToSection('services')}
-                                  style={{
-                                    width: '100%',
-                                    padding: '0.75rem',
-                                    textAlign: 'center',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    transition: 'all 0.3s ease',
-                                    cursor: 'pointer',
-                                    color: '#ffffff',
-                                    fontFamily: '"Chakra Petch", sans-serif',
-                                    fontWeight: '500'
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                                  }}
+                                  className="dropdown-all-services-btn"
                                 >
-                                  View All Services
+                                  <span className="chakra-medium text-light">View All Services</span>
                                 </button>
                               </div>
                             </div>
@@ -365,102 +263,50 @@ const Header = () => {
                       </AnimatePresence>
                     </div>
                   ) : (
-                    <button
+                    // Regular Navigation Items
+                    <motion.button
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
                       onClick={item.action}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        color: '#ffffff',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '0.75rem 1rem',
-                        borderRadius: '0.5rem',
-                        transition: 'all 0.3s ease',
-                        fontFamily: '"Chakra Petch", sans-serif',
-                        fontWeight: '500'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = 'transparent';
-                      }}
+                      className="nav-button"
                     >
-                      <i className={`${item.icon}`} style={{ fontSize: '18px' }}></i>
+                      <i className={`${item.icon} text-lg`}></i>
                       <span>{item.label}</span>
-                    </button>
+                    </motion.button>
                   )}
                 </div>
               ))}
             </nav>
 
-            {/* CTA Button & Mobile Button */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <button
-                onClick={() => scrollToSection('contact')}
-                style={{
-                  display: 'none',
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontWeight: '600',
-                  fontFamily: '"Chakra Petch", sans-serif',
-                  transition: 'all 0.3s ease'
-                }}
-                className="md:block"
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                  e.target.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#ffffff';
-                  e.target.style.transform = 'translateY(0px)';
-                }}
-              >
-                Get Started
-              </button>
+            {/* CTA Button */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              onClick={() => scrollToSection('contact')}
+              className="hidden md:block btn-primary"
+            >
+              Get Started
+            </motion.button>
 
-              {/* Mobile Menu Button */}
-              <button
-                className="md:hidden"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                style={{
-                  color: '#ffffff',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '0.75rem',
-                  borderRadius: '8px',
-                  zIndex: 1001,
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'transparent';
-                }}
-              >
-                <i 
-                  className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`} 
-                  style={{ 
-                    fontSize: '24px',
-                    transform: isMobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.2s ease'
-                  }}
-                ></i>
-              </button>
-            </div>
+            {/* Mobile Sidebar Button */}
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              <motion.i 
+                className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}
+                animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                transition={{ duration: 0.2 }}
+              ></motion.i>
+            </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Mobile Sidebar - УПРОЩЕННЫЙ */}
+      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -470,15 +316,7 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                zIndex: 999
-              }}
+              className="mobile-sidebar-backdrop"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -488,243 +326,164 @@ const Header = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              style={{
-                position: 'fixed',
-                top: 0,
-                right: 0,
-                bottom: 0,
-                width: '100vw',
-                maxWidth: '24rem',
-                backgroundColor: '#1a1a1a',
-                border: '1px solid #333333',
-                zIndex: 1000,
-                display: 'flex',
-                flexDirection: 'column',
-                overflow: 'hidden'
-              }}
+              className="mobile-sidebar"
             >
-              {/* Header */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '1.5rem',
-                borderBottom: '1px solid #333333'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '40px',
-                    height: '40px',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <i className="bi bi-lightning-charge" style={{ color: '#000000', fontSize: '18px' }}></i>
+              {/* Fixed Header */}
+              <div className="mobile-sidebar-header">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
+                    <i className="bi bi-lightning-charge text-dark text-lg"></i>
                   </div>
                   <div>
-                    <h3 style={{
-                      fontSize: '18px',
-                      fontWeight: '700',
-                      color: '#ffffff',
-                      margin: 0,
-                      fontFamily: '"Chakra Petch", sans-serif'
-                    }}>JetLab</h3>
-                    <p style={{
-                      fontSize: '12px',
-                      color: '#888888',
-                      margin: 0,
-                      fontFamily: '"Chakra Petch", sans-serif'
-                    }}>Digital Agency</p>
+                    <h3 className="text-lg chakra-bold text-light">JetLab</h3>
+                    <p className="text-xs text-muted chakra-light">Digital Agency</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '8px',
-                    backgroundColor: '#2a2a2a',
-                    color: '#ffffff',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className="mobile-sidebar-close-btn"
+                  aria-label="Close sidebar"
                 >
-                  <i className="bi bi-x" style={{ fontSize: '20px' }}></i>
+                  <i className="bi bi-x text-xl"></i>
                 </button>
               </div>
 
-              {/* Content */}
-              <div style={{
-                flex: 1,
-                overflowY: 'auto',
-                padding: '1.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem'
-              }}>
-                {navItems.map((item) => (
-                  <div key={item.id}>
-                    {item.hasDropdown ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        <div style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '1rem',
-                          padding: '1rem',
-                          backgroundColor: '#2a2a2a',
-                          borderRadius: '12px'
-                        }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            backgroundColor: '#ffffff',
-                            borderRadius: '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}>
-                            <i className={`${item.icon}`} style={{ color: '#000000', fontSize: '18px' }}></i>
-                          </div>
-                          <div>
-                            <span style={{
-                              fontWeight: '600',
-                              color: '#ffffff',
-                              fontFamily: '"Chakra Petch", sans-serif'
-                            }}>{item.label}</span>
-                            <p style={{
-                              fontSize: '12px',
-                              color: '#888888',
-                              margin: 0,
-                              fontFamily: '"Chakra Petch", sans-serif'
-                            }}>Our digital solutions</p>
-                          </div>
-                        </div>
-                        
-                        {serviceItems.map((service, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => navigateToPage(service.path)}
-                            style={{
-                              width: '100%',
-                              padding: '1rem',
-                              backgroundColor: 'rgba(42, 42, 42, 0.5)',
-                              border: '1px solid transparent',
-                              borderRadius: '12px',
-                              cursor: 'pointer',
-                              transition: 'all 0.3s ease',
-                              textAlign: 'left'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = '#3a3a3a';
-                              e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = 'rgba(42, 42, 42, 0.5)';
-                              e.target.style.borderColor = 'transparent';
-                            }}
-                          >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                              <div style={{
-                                width: '40px',
-                                height: '40px',
-                                backgroundColor: '#3a3a3a',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}>
-                                <i className={`${service.icon}`} style={{ color: '#ffffff', fontSize: '18px' }}></i>
-                              </div>
-                              <div style={{ flex: 1 }}>
-                                <h4 style={{
-                                  fontWeight: '600',
-                                  color: '#ffffff',
-                                  margin: 0,
-                                  marginBottom: '0.25rem',
-                                  fontFamily: '"Chakra Petch", sans-serif',
-                                  fontSize: '14px'
-                                }}>{service.label}</h4>
-                                <p style={{
-                                  fontSize: '12px',
-                                  color: '#888888',
-                                  margin: 0,
-                                  fontFamily: '"Chakra Petch", sans-serif'
-                                }}>{service.description}</p>
-                              </div>
-                              <i className="bi bi-arrow-right" style={{ color: '#888888' }}></i>
+              {/* Scrollable Content */}
+              <div className="mobile-sidebar-content">
+                {/* Navigation Items */}
+                <div className="space-y-3">
+                  {navItems.map((item) => (
+                    <div key={item.id}>
+                      {item.hasDropdown ? (
+                        <div className="space-y-3">
+                          {/* Services Header */}
+                          <div className="mobile-nav-service-header">
+                            <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
+                              <i className={`${item.icon} text-dark text-lg`}></i>
                             </div>
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <button
-                        onClick={item.action}
-                        style={{
-                          width: '100%',
-                          padding: '1rem',
-                          backgroundColor: 'rgba(42, 42, 42, 0.3)',
-                          border: '1px solid transparent',
-                          borderRadius: '12px',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          textAlign: 'left'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = '#3a3a3a';
-                          e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = 'rgba(42, 42, 42, 0.3)';
-                          e.target.style.borderColor = 'transparent';
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            backgroundColor: '#3a3a3a',
-                            borderRadius: '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}>
-                            <i className={`${item.icon}`} style={{ color: '#ffffff', fontSize: '18px' }}></i>
+                            <div>
+                              <span className="chakra-semibold text-light text-base">{item.label}</span>
+                              <p className="text-xs text-muted">Our digital solutions</p>
+                            </div>
                           </div>
-                          <span style={{
-                            fontWeight: '600',
-                            color: '#ffffff',
-                            flex: 1,
-                            fontFamily: '"Chakra Petch", sans-serif'
-                          }}>{item.label}</span>
-                          <i className="bi bi-arrow-right" style={{ color: '#888888' }}></i>
+                          
+                          {/* Services Submenu */}
+                          <div className="space-y-2 pl-2">
+                            {serviceItems.map((service, idx) => (
+                              <motion.button
+                                key={idx}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                onClick={() => navigateToPage(service.path)}
+                                className="mobile-nav-service-item"
+                              >
+                                <div className="mobile-nav-service-item-content">
+                                  <div className="mobile-nav-service-item-icon">
+                                    <i className={`${service.icon} text-lg text-light group-hover:text-dark`}></i>
+                                  </div>
+                                  <div className="flex-1 text-left">
+                                    <h4 className="chakra-semibold text-light group-hover:text-light text-sm">{service.label}</h4>
+                                    <p className="text-xs text-muted group-hover:text-light/80 leading-relaxed">{service.description}</p>
+                                  </div>
+                                  <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
+                                </div>
+                              </motion.button>
+                            ))}
+                            
+                            {/* View All Services */}
+                            <button
+                              onClick={() => scrollToSection('services')}
+                              className="mobile-nav-all-services-btn"
+                            >
+                              <span className="chakra-semibold text-light">View All Services</span>
+                            </button>
+                          </div>
                         </div>
-                      </button>
-                    )}
-                  </div>
-                ))}
+                      ) : (
+                        <button
+                          onClick={item.action}
+                          className="mobile-nav-item"
+                        >
+                          <div className="mobile-nav-item-content">
+                            <div className="mobile-nav-item-icon">
+                              <i className={`${item.icon} text-lg text-light group-hover:text-dark`}></i>
+                            </div>
+                            <span className="chakra-semibold text-light group-hover:text-light flex-1 text-left">{item.label}</span>
+                            <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
+                          </div>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 
                 {/* CTA Button */}
-                <div style={{ marginTop: '2rem' }}>
+                <div className="mt-8">
                   <button
                     onClick={() => scrollToSection('contact')}
-                    style={{
-                      width: '100%',
-                      backgroundColor: '#ffffff',
-                      color: '#000000',
-                      padding: '1rem',
-                      borderRadius: '12px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontWeight: '600',
-                      fontFamily: '"Chakra Petch", sans-serif',
-                      fontSize: '18px'
-                    }}
+                    className="w-full btn-primary text-center py-4 text-lg chakra-semibold"
                   >
                     Get Started
                   </button>
                 </div>
+
+                {/* Contact Info */}
+                <div className="mobile-sidebar-contact">
+                  <h4 className="chakra-semibold text-light mb-4 text-center">Contact Info</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-geo-alt text-light/80"></i>
+                      </div>
+                      <span className="text-sm text-muted">Chicago, Illinois, USA</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-envelope text-light/80"></i>
+                      </div>
+                      <a 
+                        href="mailto:info@jetlabco.com" 
+                        className="text-sm text-muted hover:text-light transition-colors"
+                      >
+                        info@jetlabco.com
+                      </a>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-clock text-light/80"></i>
+                      </div>
+                      <span className="text-sm text-muted">Mon - Fri: 9AM - 6PM</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div className="mobile-sidebar-social">
+                  <h5 className="chakra-medium text-light mb-4">Follow Us</h5>
+                  <div className="flex justify-center space-x-4">
+                    {[
+                      { icon: 'bi-linkedin', href: '#', label: 'LinkedIn' },
+                      { icon: 'bi-twitter', href: '#', label: 'Twitter' },
+                      { icon: 'bi-facebook', href: '#', label: 'Facebook' },
+                      { icon: 'bi-instagram', href: '#', label: 'Instagram' }
+                    ].map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 bg-dark-600 rounded-lg flex items-center justify-center hover:bg-light hover:text-dark transition-all duration-300 text-light"
+                        aria-label={social.label}
+                      >
+                        <i className={`${social.icon} text-sm`}></i>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Safe area для iOS - дополнительный отступ */}
+                <div className="h-8"></div>
               </div>
             </motion.div>
           </>
