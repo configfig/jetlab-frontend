@@ -43,19 +43,53 @@ const Header = () => {
     setIsServicesDropdownOpen(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
+  // Prevent body scroll when mobile menu is open - УЛУЧШЕННАЯ ВЕРСИЯ
   useEffect(() => {
     if (isMobileMenuOpen) {
+      // Сохраняем текущую позицию скролла
+      const scrollY = window.scrollY;
+      
+      // Фиксируем body
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+      
+      // Добавляем класс для дополнительных стилей
+      document.body.classList.add('modal-open');
+      document.documentElement.classList.add('modal-open');
     } else {
+      // Восстанавливаем скролл
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      
+      // Убираем классы
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
+      
+      // Восстанавливаем позицию скролла
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
 
     return () => {
+      // Cleanup при размонтировании
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      document.body.classList.remove('modal-open');
+      document.documentElement.classList.remove('modal-open');
     };
   }, [isMobileMenuOpen]);
 
@@ -448,7 +482,7 @@ const Header = () => {
                   </div>
                 </div>
 
-                {/* Safe area for iOS */}
+                {/* Safe area для iOS - дополнительный отступ */}
                 <div className="h-8"></div>
               </div>
             </motion.div>
