@@ -468,7 +468,7 @@ const Header = () => {
                       { icon: 'bi-facebook', href: '#', label: 'Facebook' },
                       { icon: 'bi-instagram', href: '#', label: 'Instagram' }
                     ].map((social, index) => (
-                      
+                      <a
                         key={index}
                         href={social.href}
                         target="_blank"
