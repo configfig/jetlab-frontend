@@ -43,13 +43,13 @@ const Header = () => {
     setIsServicesDropdownOpen(false);
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open - УЛУЧШЕННАЯ ВЕРСИЯ
+  // Prevent body scroll when mobile menu is open - FIXED
   useEffect(() => {
     if (isMobileMenuOpen) {
-      // Сохраняем текущую позицию скролла
+      // Save current scroll position
       const scrollY = window.scrollY;
       
-      // Фиксируем body
+      // Fix body
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.left = '0';
@@ -57,11 +57,11 @@ const Header = () => {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       
-      // Добавляем класс для дополнительных стилей
+      // Add class for additional styles
       document.body.classList.add('modal-open');
       document.documentElement.classList.add('modal-open');
     } else {
-      // Восстанавливаем скролл
+      // Restore scroll
       const scrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
@@ -70,18 +70,18 @@ const Header = () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       
-      // Убираем классы
+      // Remove classes
       document.body.classList.remove('modal-open');
       document.documentElement.classList.remove('modal-open');
       
-      // Восстанавливаем позицию скролла
+      // Restore scroll position
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
     }
 
     return () => {
-      // Cleanup при размонтировании
+      // Cleanup on unmount
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
@@ -351,24 +351,24 @@ const Header = () => {
               {/* Scrollable Content */}
               <div className="mobile-sidebar-content">
                 {/* Navigation Items */}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {navItems.map((item) => (
                     <div key={item.id}>
                       {item.hasDropdown ? (
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                           {/* Services Header */}
                           <div className="mobile-nav-service-header">
-                            <div className="w-10 h-10 bg-light rounded-lg flex items-center justify-center">
-                              <i className={`${item.icon} text-dark text-lg`}></i>
+                            <div className="w-9 h-9 bg-light rounded-lg flex items-center justify-center">
+                              <i className={`${item.icon} text-dark text-base`}></i>
                             </div>
                             <div>
-                              <span className="chakra-semibold text-light text-base">{item.label}</span>
+                              <span className="chakra-semibold text-light text-sm">{item.label}</span>
                               <p className="text-xs text-muted">Our digital solutions</p>
                             </div>
                           </div>
                           
                           {/* Services Submenu */}
-                          <div className="space-y-2 pl-2">
+                          <div className="space-y-1 pl-2">
                             {serviceItems.map((service, idx) => (
                               <motion.button
                                 key={idx}
@@ -380,13 +380,13 @@ const Header = () => {
                               >
                                 <div className="mobile-nav-service-item-content">
                                   <div className="mobile-nav-service-item-icon">
-                                    <i className={`${service.icon} text-lg text-light group-hover:text-dark`}></i>
+                                    <i className={`${service.icon} text-base text-light group-hover:text-dark`}></i>
                                   </div>
                                   <div className="flex-1 text-left">
                                     <h4 className="chakra-semibold text-light group-hover:text-light text-sm">{service.label}</h4>
                                     <p className="text-xs text-muted group-hover:text-light/80 leading-relaxed">{service.description}</p>
                                   </div>
-                                  <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
+                                  <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300 text-sm"></i>
                                 </div>
                               </motion.button>
                             ))}
@@ -396,7 +396,7 @@ const Header = () => {
                               onClick={() => scrollToSection('services')}
                               className="mobile-nav-all-services-btn"
                             >
-                              <span className="chakra-semibold text-light">View All Services</span>
+                              <span className="chakra-semibold text-light text-sm">View All Services</span>
                             </button>
                           </div>
                         </div>
@@ -407,10 +407,10 @@ const Header = () => {
                         >
                           <div className="mobile-nav-item-content">
                             <div className="mobile-nav-item-icon">
-                              <i className={`${item.icon} text-lg text-light group-hover:text-dark`}></i>
+                              <i className={`${item.icon} text-base text-light group-hover:text-dark`}></i>
                             </div>
-                            <span className="chakra-semibold text-light group-hover:text-light flex-1 text-left">{item.label}</span>
-                            <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300"></i>
+                            <span className="chakra-semibold text-light group-hover:text-light flex-1 text-left text-sm">{item.label}</span>
+                            <i className="bi bi-arrow-right text-muted group-hover:text-light transition-all duration-300 text-sm"></i>
                           </div>
                         </button>
                       )}
@@ -419,10 +419,10 @@ const Header = () => {
                 </div>
                 
                 {/* CTA Button */}
-                <div className="mt-8">
+                <div className="mt-6">
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="w-full btn-primary text-center py-4 text-lg chakra-semibold"
+                    className="w-full btn-primary text-center py-3 text-base chakra-semibold"
                   >
                     Get Started
                   </button>
@@ -430,50 +430,50 @@ const Header = () => {
 
                 {/* Contact Info */}
                 <div className="mobile-sidebar-contact">
-                  <h4 className="chakra-semibold text-light mb-4 text-center">Contact Info</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
-                        <i className="bi bi-geo-alt text-light/80"></i>
+                  <h4 className="chakra-semibold text-light mb-3 text-center text-sm">Contact Info</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-7 h-7 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-geo-alt text-light/80 text-sm"></i>
                       </div>
-                      <span className="text-sm text-muted">Chicago, Illinois, USA</span>
+                      <span className="text-xs text-muted">Chicago, Illinois, USA</span>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
-                        <i className="bi bi-envelope text-light/80"></i>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-7 h-7 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-envelope text-light/80 text-sm"></i>
                       </div>
                       <a 
                         href="mailto:info@jetlabco.com" 
-                        className="text-sm text-muted hover:text-light transition-colors"
+                        className="text-xs text-muted hover:text-light transition-colors"
                       >
                         info@jetlabco.com
                       </a>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-light/10 rounded-lg flex items-center justify-center">
-                        <i className="bi bi-clock text-light/80"></i>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-7 h-7 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-clock text-light/80 text-sm"></i>
                       </div>
-                      <span className="text-sm text-muted">Mon - Fri: 9AM - 6PM</span>
+                      <span className="text-xs text-muted">Mon - Fri: 9AM - 6PM</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Social Links */}
                 <div className="mobile-sidebar-social">
-                  <h5 className="chakra-medium text-light mb-4">Follow Us</h5>
-                  <div className="flex justify-center space-x-4">
+                  <h5 className="chakra-medium text-light mb-3 text-sm">Follow Us</h5>
+                  <div className="flex justify-center space-x-3">
                     {[
                       { icon: 'bi-linkedin', href: '#', label: 'LinkedIn' },
                       { icon: 'bi-twitter', href: '#', label: 'Twitter' },
                       { icon: 'bi-facebook', href: '#', label: 'Facebook' },
                       { icon: 'bi-instagram', href: '#', label: 'Instagram' }
                     ].map((social, index) => (
-                      <a
+                      
                         key={index}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 h-10 bg-dark-600 rounded-lg flex items-center justify-center hover:bg-light hover:text-dark transition-all duration-300 text-light"
+                        className="w-9 h-9 bg-dark-600 rounded-lg flex items-center justify-center hover:bg-light hover:text-dark transition-all duration-300 text-light"
                         aria-label={social.label}
                       >
                         <i className={`${social.icon} text-sm`}></i>
@@ -482,8 +482,8 @@ const Header = () => {
                   </div>
                 </div>
 
-                {/* Safe area для iOS - дополнительный отступ */}
-                <div className="h-8"></div>
+                {/* Safe area for iOS - additional padding */}
+                <div className="h-4"></div>
               </div>
             </motion.div>
           </>

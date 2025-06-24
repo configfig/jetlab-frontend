@@ -1,6 +1,7 @@
 // src/components/Modal.jsx
 
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
@@ -97,25 +98,16 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
     xl: 'max-w-6xl'
   };
 
-  return (
-    <div className="modal-portal">
-      <AnimatePresence>
+  // Use React Portal to render modal at the top level
+  return ReactDOM.createPortal(
+    <AnimatePresence>
+      {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)'
-          }}
+          className="modal-portal-fixed"
           onClick={handleBackdropClick}
         >
           {/* Modal Content */}
@@ -124,17 +116,17 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             transition={{ duration: 0.3 }}
-            className={`relative w-full ${sizeClasses[size]} max-h-[90vh] bg-dark-700 border border-border rounded-2xl overflow-hidden shadow-2xl`}
+            className={`modal-content-wrapper ${sizeClasses[size]}`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-border bg-dark-700">
+            <div className="modal-header">
               <h3 className="text-xl lg:text-2xl chakra-semibold text-light">
                 {title}
               </h3>
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-lg bg-dark-600 hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center text-light"
+                className="modal-close-button"
                 aria-label="Close modal"
               >
                 <i className="bi bi-x text-xl"></i>
@@ -142,13 +134,14 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
             </div>
             
             {/* Body */}
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <div className="modal-body">
               {children}
             </div>
           </motion.div>
         </motion.div>
-      </AnimatePresence>
-    </div>
+      )}
+    </AnimatePresence>,
+    document.body
   );
 };
 
