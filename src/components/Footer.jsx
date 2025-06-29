@@ -149,6 +149,15 @@ const Footer = () => {
                   <span className="chakra-light text-muted">Chicago, Illinois, USA</span>
                 </div>
                 <div className="flex items-center space-x-3">
+                  <i className="bi bi-telephone text-light"></i>
+                  <a 
+                    href="tel:+12244012050"
+                    className="chakra-light text-muted hover:text-light transition-colors duration-300"
+                  >
+                    +1 224 401 2050
+                  </a>
+                </div>
+                <div className="flex items-center space-x-3">
                   <i className="bi bi-envelope text-light"></i>
                   <a 
                     href="mailto:info@jetlabco.com"
