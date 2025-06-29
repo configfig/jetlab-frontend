@@ -92,10 +92,10 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
   }
 
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-2xl',
-    lg: 'max-w-4xl',
-    xl: 'max-w-6xl'
+    sm: 'modal-size-sm',
+    md: 'modal-size-md', 
+    lg: 'modal-size-lg',
+    xl: 'modal-size-xl'
   };
 
   // Use React Portal to render modal at the top level
@@ -106,37 +106,51 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="modal-portal-fixed"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="modal-backdrop-enhanced"
           onClick={handleBackdropClick}
         >
           {/* Modal Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            transition={{ duration: 0.3 }}
-            className={`modal-content-wrapper ${sizeClasses[size]}`}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`modal-container-enhanced ${sizeClasses[size]}`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="modal-header">
-              <h3 className="text-xl lg:text-2xl chakra-semibold text-light">
-                {title}
-              </h3>
-              <button
-                onClick={onClose}
-                className="modal-close-button"
-                aria-label="Close modal"
-              >
-                <i className="bi bi-x text-xl"></i>
-              </button>
+            {/* Enhanced Header with gradient */}
+            <div className="modal-header-enhanced">
+              <div className="modal-header-content">
+                <div className="modal-title-wrapper">
+                  <div className="modal-title-icon">
+                    <i className="bi bi-lightning-charge text-dark text-lg"></i>
+                  </div>
+                  <h3 className="modal-title-text">
+                    {title}
+                  </h3>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="modal-close-btn-enhanced"
+                  aria-label="Close modal"
+                >
+                  <i className="bi bi-x text-xl"></i>
+                </button>
+              </div>
+              <div className="modal-header-border"></div>
             </div>
             
-            {/* Body */}
-            <div className="modal-body">
-              {children}
+            {/* Enhanced Body with custom scrollbar */}
+            <div className="modal-body-enhanced">
+              <div className="modal-content-inner">
+                {children}
+              </div>
             </div>
+
+            {/* Gradient overlays for better visual hierarchy */}
+            <div className="modal-gradient-top"></div>
+            <div className="modal-gradient-bottom"></div>
           </motion.div>
         </motion.div>
       )}
