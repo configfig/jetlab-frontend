@@ -440,6 +440,17 @@ const Header = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-7 h-7 bg-light/10 rounded-lg flex items-center justify-center">
+                        <i className="bi bi-telephone text-light/80 text-sm"></i>
+                      </div>
+                      <a 
+                        href="tel:+12244012050" 
+                        className="text-xs text-muted hover:text-light transition-colors"
+                      >
+                        +1 224 401 2050
+                      </a>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-7 h-7 bg-light/10 rounded-lg flex items-center justify-center">
                         <i className="bi bi-envelope text-light/80 text-sm"></i>
                       </div>
                       <a 
